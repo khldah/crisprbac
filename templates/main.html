@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+  <head>
+    <title>CRISPRBAC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="CRISPR, gRNA design, guide sequence, CRISPR Cas9, genome editing, genome engineering, off-target" />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" type="text/css" media="all" />
+
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="topnav">
+        <ul>
+          <li><h4>CRISPR<span style="color:#E83F6F;">BAC</span></h4><li>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('help') }}">Help</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="{{ url_for('sample_result') }}">Example result</a></li>
+        </ul>
+    </div>
+
+    <div class="se-pre-con"></div>
+
+
+    <!-- Header -->
+    <section class="header">
+        <div class="container">
+        <div class="row">
+            <div class="header-left col-12 col-xs-12 col-md-6 col-lg-6">
+                <h1>Welcome to CRISPR<span style="color:#E83F6F;">BAC</span></h1>
+                <p>A CRISPR guide RNA design tool for bacterial genome.</p>
+                <ul>
+                    <li>Covers a total of 217 bacterial genomes.</li>
+                    <li>Supervised learning based.</li>
+                    <li>Optimal cutting efficiency.</li>
+                    <li>Minimized off-target effects.</li>
+                </ul>
+
+                <a class="btn btn-filled" href="#design" role="button">Design your gRNA</a>
+                <a class="btn btn-outlined" href="{{ url_for('help') }}" role="button"><i class="fas fa-book"></i> Documentation</a>
+
+            </div>
+
+            <div class="col-12 col-xs-12 col-md-6 col-lg-6">
+                <img src="{{ url_for('static', filename='images/header.png') }}" style="width: 100%;">
+            </div>
+        
+        </div>
+        </div>
+        
+    </section>
+
+    <!-- Design -->
+    <section id="design" class="design">
+
+
+        <div class="design-form">
+            <h1>Design your <span style="color:#E83F6F;">gRNA</span></h1>
+            <form action="{{ url_for('result') }}" method="post">
+                <div class="form-group">
+                    <label for="jobname">Job name <span class="required">*</span></label>
+                    <input type="text" class="form-control" name="jobname" id="jobname" placeholder="My Job" required>
+                </div>
+
+                <div class="form-group">
+
+                    <label for="genome">Target genome of interest <span class="required">*</span></label>
+
+                    <select class="form-control form-select" id="genome" name="targetgenome" placeholder="Select" required>
+                        <option value="GCA_900834415.1">Salmonella enterica subsp. enterica serovar Stanley str. UPM 517 (GCA_900834415.1)</option>
+                        <option value="NC_010611">Acinobacter baumannii str. ACICU (NC_010611)</option>
+                        <option value="NC_021290">Aeromonas hydrophila str. ML09-119 (NC_021290)</option>
+                        <option value="NC_008570">Aeromonas hydrophila subsp. hydrophila str. ATCC 7966 (NC_008570)</option>
+                        <option value="NC_009348">Aeromonas salmonicida subsp. salmonicida str. A449 (NC_009348)</option>
+                        <option value="NC_015424">Aeromonas veronii str. B565 (NC_015424)</option>
+                        <option value="NC_013532">Anaplasma centrale str. Israel (NC_013532)</option>
+                        <option value="NC_012026">Anaplasma marginale str. Florida (NC_012026)</option>
+                        <option value="NC_007797">Anaplasma phagocytophilum str. HZ (NC_007797)</option>
+                        <option value="NC_003997">Bacillus anthracis str. Ames (NC_003997)</option>
+                        <option value="NC_008783">Bacillus bacilliformis str. KC583 (NC_008783)</option>
+                        <option value="NC_004722">Bacillus cereus str. ATCC 14579 (NC_004722)</option>
+                        <option value="NC_011969">Bacillus cereus str. Q1 (NC_011969)</option>
+                        <option value="NC_006582">Bacillus clausii str. KSM-K16 (NC_006582)</option>
+                        <option value="NC_002570">Bacillus halodurans str. C-125 (NC_002570)</option>
+                        <option value="NC_005956">Bacillus henselae str. Houston-1 (NC_005956)</option>
+                        <option value="NC_006270">Bacillus licheniformis str. ATCC 14580 (NC_006270)</option>
+                        <option value="NC_005955">Bacillus quintana str. Toulouse (NC_005955)</option>
+                        <option value="NC_000964">Bacillus subtilis subsp. subtilis str. 168 (NC_000964)</option>
+                        <option value="NC_005957">Bacillus thuringiensis serovar konkukian str. 97-27 (NC_005957)</option>
+                        <option value="NC_010161">Bacillus tribocorum str. CIP 105476 (NC_010161)</option>
+                        <option value="NC_010184">Bacillus weihenstephanensis str. KBAB4 (NC_010184)</option>
+                        <option value="NC_010645">Bordetella avium str. 197N (NC_010645)</option>
+                        <option value="NC_002927">Bordetella bronchiseptica str. RB50 (NC_002927)</option>
+                        <option value="NC_002928">Bordetella parapertussis str. 12822 (NC_002928)</option>
+                        <option value="NC_002929">Bordetella pertussis str. Tohama I (NC_002929)</option>
+                        <option value="NC_006932">Brucella abortus bv. 1 str. 9-941 chromosome I (NC_006932)</option>
+                        <option value="NC_006933">Brucella abortus bv. 1 str. 9-941 chromosome II (NC_006933)</option>
+                        <option value="NC_010103">Brucella canis str. ATCC 23365 chromosome I (NC_010103)</option>
+                        <option value="NC_010104">Brucella canis str. ATCC 23365 chromosome II (NC_010104)</option>
+                        <option value="NC_007618">Brucella melitensis biovar Abortus str. 2308 chromosome I (NC_007618)</option>
+                        <option value="NC_007624">Brucella melitensis biovar Abortus str. 2308 chromosome II (NC_007624)</option>
+                        <option value="NC_003317">Brucella melitensis bv. 1 str. 16M chromosome I (NC_003317)</option>
+                        <option value="NC_003318">Brucella melitensis bv. 1 str. 16M chromosome II (NC_003318)</option>
+                        <option value="NC_012441">Brucella melitensis str. ATCC 23457 chromosome I (NC_012441)</option>
+                        <option value="NC_012442">Brucella melitensis str. ATCC 23457 chromosome II (NC_012442)</option>
+                        <option value="NC_009505">Brucella ovis str. ATCC 25840 chromosome I (NC_009505)</option>
+                        <option value="NC_009504">Brucella ovis str. ATCC 25840 chromosome II (NC_009504)</option>
+                        <option value="NC_004310">Brucella suis str. 1330 chromosome I (NC_004310)</option>
+                        <option value="NC_004311">Brucella suis str. 1330 chromosome II (NC_004311)</option>
+                        <option value="NC_011000">Burkholderia cenocepacia str. J2315 chromosome I (NC_011000)</option>
+                        <option value="NC_011001">Burkholderia cenocepacia str. J2315 chromosome II (NC_011001)</option>
+                        <option value="NC_011002">Burkholderia cenocepacia str. J2315 chromosome III (NC_011002)</option>
+                        <option value="NC_006348">Burkholderia mallei str. ATCC 23344 chromosome I (NC_006348)</option>
+                        <option value="NC_006349">Burkholderia mallei str. ATCC 23344 chromosome II (NC_006349)</option>
+                        <option value="NC_006350">Burkholderia pseudomallei str. K96243 chromosome I (NC_006350)</option>
+                        <option value="NC_006351">Burkholderia pseudomallei str. K96243 chromosome II (NC_006351)</option>
+                        <option value="NC_007651">Burkholderia thailandensis str. E264 chromosome I (NC_007651)</option>
+                        <option value="NC_007650">Burkholderia thailandensis str. E264 chromosome II (NC_007650)</option>
+                        <option value="NC_008599">Campylobacter fetus subsp. fetus str. 82-40 (NC_008599)</option>
+                        <option value="NC_003912">Campylobacter jejuni str. RM1221 (NC_003912)</option>
+                        <option value="NC_009707">Campylobacter jejuni subsp. doylei str. 269.97 (NC_009707)</option>
+                        <option value="NC_009839">Campylobacter jejuni subsp. jejuni str. 81116 (NC_009839)</option>
+                        <option value="NC_004552">Chlamydia abortus str. S26/3 (NC_004552)</option>
+                        <option value="NC_003361">Chlamydia caviae str. GPIC (NC_003361)</option>
+                        <option value="NC_007899">Chlamydia felis str. Fe/C-56 (NC_007899)</option>
+                        <option value="NC_002620">Chlamydia muridarum str. Nigg (NC_002620)</option>
+                        <option value="NC_002491">Chlamydia pneumoniae str. J138 (NC_002491)</option>
+                        <option value="NC_010287">Chlamydia trachomatis str. 434/Bu (NC_010287)</option>
+                        <option value="NC_007429">Chlamydia trachomatis str. A/HAR-13 (NC_007429)</option>
+                        <option value="NC_000117">Chlamydia trachomatis str. D/UW-3/CX (NC_000117)</option>
+                        <option value="NC_010280">Chlamydia trachomatis str. L2b/UCH-1/proctitis (NC_010280)</option>
+                        <option value="NC_003030">Clostridium acetobutylicum str. ATCC 824 (NC_003030)</option>
+                        <option value="NC_009617">Clostridium beijerinckii str. NCIMB 8052 (NC_009617)</option>
+                        <option value="NC_009495">Clostridium botulinum A str. ATCC 3502 (NC_009495)</option>
+                        <option value="NC_012563">Clostridium botulinum A2 str. Kyoto (NC_012563)</option>
+                        <option value="NC_010520">Clostridium botulinum A3 str. Loch Maree (NC_010520)</option>
+                        <option value="NC_010674">Clostridium botulinum B str. Eklund 17B (NC_010674)</option>
+                        <option value="NC_010516">Clostridium botulinum B1 str. Okra (NC_010516)</option>
+                        <option value="NC_010723">Clostridium botulinum E3 str. Alaska E43 (NC_010723)</option>
+                        <option value="NC_009699">Clostridium botulinum F str. Langeland (NC_009699)</option>
+                        <option value="NC_009089">Clostridium difficile str. 630 (NC_009089)</option>
+                        <option value="NC_008593">Clostridium novyi str. NT (NC_008593)</option>
+                        <option value="NC_008261">Clostridium perfringens str. ATCC 13124 (NC_008261)</option>
+                        <option value="NC_004557">Clostridium tetani str. E88 (NC_004557)</option>
+                        <option value="NC_009012">Clostridium thermocellum str. ATCC 27405 (NC_009012)</option>
+                        <option value="NC_002935">Corynebacterium diphtheriae str. NCTC 13129 (NC_002935)</option>
+                        <option value="NC_004369">Corynebacterium efficiens str. YS-314 (NC_004369)</option>
+                        <option value="NC_003450">Corynebacterium glutamicum str. ATCC 13032 (NC_003450)</option>
+                        <option value="NC_007164">Corynebacterium jeikeium str. K411 (NC_007164)</option>
+                        <option value="NC_014329">Corynebacterium pseudotuberculosis str. FRC41 (NC_014329)</option>
+                        <option value="NC_002971">Coxiella burnetii str. RSA 493 (NC_002971)</option>
+                        <option value="NC_018221">Enterococcus faecalis str. D32 (NC_018221)</option>
+                        <option value="NC_004668">Enterococcus faecalis str. V583 (NC_004668)</option>
+                        <option value="NC_017960">Enterococcus faecium str. DO (NC_017960)</option>
+                        <option value="NC_018650">Escherichia coli O104:H4 str. 2009EL-2050 (NC_018650)</option>
+                        <option value="NC_002695">Escherichia coli O157:H7 str. Sakai (NC_002695)</option>
+                        <option value="NZ_HG941718">Escherichia coli O25b:H4-ST131 strain:EC958 (NZ_HG941718)</option>
+                        <option value="NC_013361">Escherichia coli O26:H11 str. 11368 (NC_013361)</option>
+                        <option value="NC_017626">Escherichia coli O44:H18 str. 042 (NC_017626)</option>
+                        <option value="NC_017656">Escherichia coli O55:H7 str. RM12579 (NC_017656)</option>
+                        <option value="NC_017646">Escherichia coli O7:K1 str. CE10 (NC_017646)</option>
+                        <option value="NC_017634">Escherichia coli O83:H1 str. NRG 857C (NC_017634)</option>
+                        <option value="NC_008253">Escherichia coli str. 536 (NC_008253)</option>
+                        <option value="NC_008563">Escherichia coli str. APEC O1 (NC_008563)</option>
+                        <option value="NC_000913">Escherichia coli str. K-12 substr. MG1655 (NC_000913)</option>
+                        <option value="NC_011745">Escherichia coli str. SMS-3-5 (NC_011745)</option>
+                        <option value="NC_017641">Escherichia coli str. UMNK88 (NC_017641)</option>
+                        <option value="NC_017909">Francisella noatunensis subsp. orientalis str. Toba 04 (NC_017909)</option>
+                        <option value="NC_010336">Francisella philomiragia subsp. philomiragia str. ATCC 25017 (NC_010336)</option>
+                        <option value="NC_019551">Francisella tularensis subsp. holarctica str. FSC200 (NC_019551)</option>
+                        <option value="NC_010677">Francisella tularensis subsp. mediasiatica str. FSC147 (NC_010677)</option>
+                        <option value="NC_006570">Francisella tularensis subsp. tularensis str. SCHU S4 (NC_006570)</option>
+                        <option value="AE017143.1">Haemophilus ducreyi 35000HP (AE017143.1)</option>
+                        <option value="CP000671.1">Haemophilus influenzae PittEE (CP000671.1)</option>
+                        <option value="L42023.1">Haemophilus influenzae Rd KW20 (L42023.1)</option>
+                        <option value="CP000436.1">Haemophilus somnus 129PT (CP000436.1)</option>
+                        <option value="AM260522.1">Helicobacter acinonychis str. Sheeba (AM260522.1)</option>
+                        <option value="AE017125.1">Helicobacter hepaticus ATCC 51449 (AE017125.1)</option>
+                        <option value="FN555004.1">Helicobacter mustelae 12198 (FN555004.1)</option>
+                        <option value="AE000511.1">Helicobacter pylori 26695 (AE000511.1)</option>
+                        <option value="AP006725.1">Klebsiella pneumoniae subsp. pneumoniae NTUH-K2044 (AP006725.1)</option>
+                        <option value="CP000964.1">Klebsiella variicola strain 342 (CP000964.1)</option>
+                        <option value="FN650140.1">Legionella longbeachae NSW150 (FN650140.1)</option>
+                        <option value="AE017354.1">Legionella pneumophila subsp. pneumophila str. Philadelphia 1 (AE017354.1)</option>
+                        <option value="AL592022.1">Listeria innocua Clip11262 (AL592022.1)</option>
+                        <option value="NC_016011.1">Listeria ivanovii subsp. ivanovii PAM 55 (NC_016011.1)</option>
+                        <option value="AL591824.1">Listeria monocytogenes EGD-e (AL591824.1)</option>
+                        <option value="FR720325.1">Listeria monocytogenes serotype 7 str. SLCC2482 (FR720325.1)</option>
+                        <option value="AE017262.2">Listeria monocytogenes str. 4b F2365 (AE017262.2)</option>
+                        <option value="FR733648.1">Listeria monocytogenes strain SLCC2372, serotype 1/2c (FR733648.1)</option>
+                        <option value="FR733646.1">Listeria monocytogenes strain SLCC2755, serotype 1/2b (FR733646.1)</option>
+                        <option value="FN557490.1">Listeria seeligeri serovar 1/2b str. SLCC3954 (FN557490.1)</option>
+                        <option value="AM263198.1">Listeria welshimeri serovar 6b str. SLCC5334 (AM263198.1)</option>
+                        <option value="CP003699.2">Mycobacterium abscessus subsp. massiliense str. GO 06 (CP003699.2)</option>
+                        <option value="FR878060.1">Mycobacterium africanum GM041182 (FR878060.1)</option>
+                        <option value="AE016958.1">Mycobacterium avium subsp. paratuberculosis str. k10 (AE016958.1)</option>
+                        <option value="CP002095.1">Mycobacterium bovis BCG str. Mexico (CP002095.1)</option>
+                        <option value="FO203507.1">Mycobacterium canettii CIPT 140060008 (FO203507.1)</option>
+                        <option value="CP002385.1">Mycobacterium gilvum Spyr1 (CP002385.1)</option>
+                        <option value="CP002275.1">Mycobacterium indicus pranii MTCC 9506 (CP002275.1)</option>
+                        <option value="AL123456.3">Mycobacterium tuberculosis H37Rv (AL123456.3)</option>
+                        <option value="CP000325.1">Mycobacterium ulcerans Agy99 (CP000325.1)</option>
+                        <option value="CU179680.1">Mycoplasma agalactiae PG2 (CU179680.1)</option>
+                        <option value="CP001047.1">Mycoplasma arthritidis 158L3-1 (CP001047.1)</option>
+                        <option value="CP000123.1">Mycoplasma capricolum subsp. capricolum ATCC 27343 (CP000123.1)</option>
+                        <option value="NC_012806.1">Mycoplasma conjunctivae HRC/581T (NC_012806.1)</option>
+                        <option value="CP001995.1">Mycoplasma fermentans JER (CP001995.1)</option>
+                        <option value="AE015450.2">Mycoplasma gallisepticum str. R(low) (AE015450.2)</option>
+                        <option value="L43967.2">Mycoplasma genitalium G37 (L43967.2)</option>
+                        <option value="FP236530.1">Mycoplasma hominis ATCC 23114 (FP236530.1)</option>
+                        <option value="AE017332.1">Mycoplasma hyopneumoniae 232 (AE017332.1)</option>
+                        <option value="AE017308.1">Mycoplasma mobile 163K (AE017308.1)</option>
+                        <option value="BX293980.2">Mycoplasma mycoides subsp. mycoides SC str. PG1 (BX293980.2)</option>
+                        <option value="BA000026.2">Mycoplasma penetrans HF-2 DNA (BA000026.2)</option>
+                        <option value="U00089.2">Mycoplasma pneumoniae M129 (U00089.2)</option>
+                        <option value="AL445566.1">Mycoplasma pulmonis UAB CTIP (AL445566.1)</option>
+                        <option value="AE017245.1">Mycoplasma synoviae 53 (AE017245.1)</option>
+                        <option value="CP001050.1">Neisseria gonorrhoeae NCCP11945 (CP001050.1)</option>
+                        <option value="FN995097.1">Neisseria lactamica 020-06 (FN995097.1)</option>
+                        <option value="AE002098.2">Neisseria meningitidis MC58 (AE002098.2)</option>
+                        <option value="AE004091.2">Pseudomonas aeruginosa PAO1 (AE004091.2)</option>
+                        <option value="CT573326.1">Pseudomonas entomophila str. L48 (CT573326.1)</option>
+                        <option value="AM181176.4">Pseudomonas fluorescens SBW25 (AM181176.4)</option>
+                        <option value="CP000680.1">Pseudomonas mendocina ymp (CP000680.1)</option>
+                        <option value="AE015451.2">Pseudomonas putida KT2440 (AE015451.2)</option>
+                        <option value="NC_005773.3">Pseudomonas savastanoi pv. phaseolicola 1448A (NC_005773.3)</option>
+                        <option value="CP000304.1">Pseudomonas stutzeri A1501 (CP000304.1)</option>
+                        <option value="CP001612.1">Rickettsia africae ESF-5 (CP001612.1)</option>
+                        <option value="CP000847.1">Rickettsia akari str. Hartford (CP000847.1)</option>
+                        <option value="CP000849.1">Rickettsia bellii OSU 85-389 (CP000849.1)</option>
+                        <option value="CP000409.1">Rickettsia canadensis str. McKiel (CP000409.1)</option>
+                        <option value="AE006914.1">Rickettsia conorii str. Malish 7 (AE006914.1)</option>
+                        <option value="CP000683.1">Rickettsia massiliae MTU5 (CP000683.1)</option>
+                        <option value="CP001227.1">Rickettsia peacockii str. Rustic (CP001227.1)</option>
+                        <option value="AJ235269.1">Rickettsia prowazekii str. Madrid E (AJ235269.1)</option>
+                        <option value="CP000766.3">Rickettsia rickettsii str. Iowa (CP000766.3)</option>
+                        <option value="AE017197.1">Rickettsia typhi str. Wilmington (AE017197.1)</option>
+                        <option value="NC_010067.1">Salmonella enterica subsp. arizonae serovar 62:z4,z23:-- (NC_010067.1)</option>
+                        <option value="CP001138.1">Salmonella enterica subsp. enterica serovar Agona str. SL483 (CP001138.1)</option>
+                        <option value="AE017220.1">Salmonella enterica subsp. enterica serovar Choleraesuis str. SC-B67 (AE017220.1)</option>
+                        <option value="CP001144.1">Salmonella enterica subsp. enterica serovar Dublin str. CT_02021853 (CP001144.1)</option>
+                        <option value="AM933172.1">Salmonella enterica subsp. enterica serovar Enteritidis str. P125109 (AM933172.1)</option>
+                        <option value="AM933173.1">Salmonella enterica subsp. enterica serovar Gallinarum str. 287/91 (AM933173.1)</option>
+                        <option value="CP001120.1">Salmonella enterica subsp. enterica serovar Heidelberg str. SL476 (CP001120.1)</option>
+                        <option value="CP001113.1">Salmonella enterica subsp. enterica serovar Newport str. SL254 (CP001113.1)</option>
+                        <option value="FM200053.1">Salmonella enterica subsp. enterica serovar Paratyphi A str. AKU_12601 (FM200053.1)</option>
+                        <option value="CP000026.1">Salmonella enterica subsp. enterica serovar Paratyphi A str. ATCC 9150 (CP000026.1)</option>
+                        <option value="CP000886.1">Salmonella enterica subsp. enterica serovar Paratyphi B str. SPB7 (CP000886.1)</option>
+                        <option value="NC_012125.1">Salmonella enterica subsp. enterica serovar Paratyphi C strain RKS4594 (NC_012125.1)</option>
+                        <option value="CP001127.1">Salmonella enterica subsp. enterica serovar Schwarzengrund str. CVM19633 (CP001127.1)</option>
+                        <option value="AL513382.1">Salmonella enterica subsp. enterica serovar Typhi str. CT18 (AL513382.1)</option>
+                        <option value="AE014613.1">Salmonella enterica subsp. enterica serovar Typhi Ty2 (AE014613.1)</option>
+                        <option value="AE006468.2">Salmonella enterica subsp. enterica serovar Typhimurium str. LT2 (AE006468.2)</option>
+                        <option value="CP000036.1">Shigella boydii Sb227 (CP000036.1)</option>
+                        <option value="CP000034.1">Shigella dysenteriae Sd197 (CP000034.1)</option>
+                        <option value="AE014073.1">Shigella flexneri 2a str. 2457T (AE014073.1)</option>
+                        <option value="CP000266.1">Shigella flexneri 5 str. 8401 (CP000266.1)</option>
+                        <option value="CP000038.1">Shigella sonnei Ss046 (CP000038.1)</option>
+                        <option value="AJ938182.1">Staphylococcus aureus RF122 (AJ938182.1)</option>
+                        <option value="AP009324.1">Staphylococcus aureus subsp. aureus Mu3 (AP009324.1)</option>
+                        <option value="BA000017.4">Staphylococcus aureus subsp. aureus Mu50 (BA000017.4)</option>
+                        <option value="CP000029.1">Staphylococcus epidermidis RP62A (CP000029.1)</option>
+                        <option value="AP006716.1">Staphylococcus haemolyticus JCSC1435 (AP006716.1)</option>
+                        <option value="AP008934.1">Staphylococcus saprophyticus subsp. saprophyticus ATCC 15305 (AP008934.1)</option>
+                        <option value="CP000114.1">Streptococcus agalactiae A909 (CP000114.1)</option>
+                        <option value="AP010935.1">Streptococcus dysgalactiae subsp. equisimilis GGS_124 (AP010935.1)</option>
+                        <option value="FM204883.1">Streptococcus equi subsp. equi 4047 (FM204883.1)</option>
+                        <option value="CP001129.1">Streptococcus equi subsp. zooepidemicus MGCS10565 (CP001129.1)</option>
+                        <option value="CP000725.1">Streptococcus gordonii str. Challis substr. CH1 (CP000725.1)</option>
+                        <option value="AP010655.1">Streptococcus mutans NN2025 (AP010655.1)</option>
+                        <option value="AE007317.1">Streptococcus pneumoniae R6 (AE007317.1)</option>
+                        <option value="CP000017.2">Streptococcus pyogenes MGAS5005 (CP000017.2)</option>
+                        <option value="CP000387.1">Streptococcus sanguinis SK36 (CP000387.1)</option>
+                        <option value="CP000407.1">Streptococcus suis 05ZYH33 (CP000407.1)</option>
+                        <option value="CP000419.1">Streptococcus thermophilus LMD-9 (CP000419.1)</option>
+                        <option value="AE003852.1">Vibrio cholerae O1 biovar eltor str. N16961 chromosome I (AE003852.1)</option>
+                        <option value="AE003853.1">Vibrio cholerae O1 biovar eltor str. N16961 chromosome II (AE003853.1)</option>
+                        <option value="CP000020.2">Vibrio fischeri ES114 chromosome I (CP000020.2)</option>
+                        <option value="CP000021.2">Vibrio fischeri ES114 chromosome II (CP000021.2)</option>
+                        <option value="BA000031.2">Vibrio parahaemolyticus RIMD 2210633 (BA000031.2)</option>
+                        <option value="BA000032.2">Vibrio parahaemolyticus RIMD 2210633 (BA000032.2)</option>
+                        <option value="AE016795.3">Vibrio vulnificus CMCP6 chromosome I (AE016795.3)</option>
+                        <option value="AE016796.2">Vibrio vulnificus CMCP6 chromosome II (AE016796.2)</option>
+                        <option value="AM286415.1">Yersinia enterocolitica subsp. enterocolitica 8081 (AM286415.1)</option>
+                        <option value="NC_015224.1">Yersinia enterocolitica subsp. palearctica 105.5R(r) (NC_015224.1)</option>
+                        <option value="AE017042.1">Yersinia pestis biovar Microtus str. 91001 (AE017042.1)</option>
+                        <option value="CP000720.1">Yersinia pseudotuberculosis IP 31758 (CP000720.1)</option>
+                    </select>
+
+                    <small id="genome" class="form-text text-muted">*If there is no match, please select the most closest genome with yours. This is important for genome-wide off-target analysis.</small>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="grnaseq">Paste your DNA sequence <span class="required">*</span></label>
+                    <textarea class="form-control" id="grnaseq" name="sequence" rows="8" placeholder="ATGATGATAAAGAAAAAGGCTGCGTTTAGTGAATATCGTGATTTAGAGCAAAGTTACATGCAGCTAAATCACTGTCTTAAAAAATTTCACCAAATCCGGGCTAAGGTGAGTCAACAGCTTGCTGAAAGGGCAGAGAGCCCCAAAAATAGCAGAGAGACAGAGAGTATTCTTCATAACCTATTTCCACAAGGCGTTGCCGGGGTTAACCAGGAGGCCGAGAAGGATTTAAAGAAAATAGTAAGTTTGTTTAAACAACTTGAAGTACGACTGAAACAACTTAATGCTCAAGCCCCGGTGGAGATACCGTCAGGAAAAACAAAAAGGTAA" required></textarea>
+                    <small id="grnaseq" class="form-text text-muted">*Do not include a fasta header and remove the line break if exists.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="pam">PAM site <span class="required">*</span></label>
+                    <select class="form-control form-select" id="pam" name="pamsequence" placeholder="Select" required>
+                        <option value="GG">SpCas9 (NGG)</option>
+                    </select>
+                    <small id="pam" class="form-text text-muted">*The choosing of PAM depends on the Cas9 used in your research. For example, SpCas9 recognize only NGG sequence.</small>
+                </div>
+
+                <input type="submit" class="btn btn-outlined" value="Submit">
+
+            </form>
+        </div>
+
+    </section>
+
+    <div class="contact" id="contact">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <h6>Disclaimer</h6>
+                <p>CRISPRBAC was developed by Khalidah Ashari at Faculty Of Biotechnology And Biomolecular Sciences, Universiti Putra Malaysia.</p>
+                <p>Last updated on 28/9/2021.</p>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <h6>How to cite?</h6>
+                <p>If you are using CRISPRBAC, please cite us:</p>
+                <p>Ashari KS et. al. 2019. Genome sequencing and analysis of Salmonella enterica subsp. enterica serovar Stanley UPM 517: Insights on its virulence-associated elements and their potentials as vaccine candidates. PeerJ 7:e6948 https://doi.org/10.7717/peerj.6948</p>
+            </div>
+            
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <h6>Contact us</h6>
+                <p>Please email us if you have any comments and recommendations.</p>
+                <!-- <p>
+                    Khalidah Ashari <br>
+                    <i class="fas fa-envelope"></i> khalidahashari@gmail.com
+                </p> -->
+                <p>
+                    Assoc. Prof. Dr. Nurulfiza Mat Isa <br>
+                    <i class="fas fa-envelope"></i> nurulfiza@upm.edu.my
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © 2024 CRISPRBAC. All rights reserved.
+    </div>
+
+</body>
+</html>

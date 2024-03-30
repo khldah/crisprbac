@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>CRISPRBAC</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="CRISPR, gRNA design, guide sequence, CRISPR Cas9, genome editing, genome engineering, off-target" />
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<link href="{{ url_for('static', filename='css/help.css') }}" rel="stylesheet" type="text/css" media="all" />
+	<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+	<script src="https://www.w3schools.com/lib/w3.js"></script>
+
+
+</head>
+<body>
+
+	<div class="sidebar">
+		<h4>CRISPR<span style="color:#E83F6F;">BAC</span></h4>
+		<a href="{{ url_for('index') }}">Home</a>
+        <a href="#submission">Submission</a>
+        <a href="#database">Bacterial genomes</a>
+        <a href="#ontarget">On-target scoring</a>
+        <a href="#offtarget">Off-target scoring</a>
+        <a href="#results">Interpreting results</a>
+        <a href="#references">References</a>
+    </div>
+
+    <div id="content">
+		<div class="container">
+      <!-- SUBMISSION -->
+      	<section id="submission">
+			<h3>Submission</h3><hr/><br/>
+
+			<h5>1. Target genome of interest</h5>
+			<!-- <div class="form-group"> -->
+			<select class="form-control form-select" id="genome" name="targetgenome" placeholder="Select">
+				<option value="AE006468.2">Salmonella enterica subsp. enterica serovar Typhimurium str. LT2 (AE006468.2)</option>
+				<option value="NC_010611">Acinobacter baumannii str. ACICU (NC_010611)</option>
+				<option value="NC_021290">Aeromonas hydrophila str. ML09-119 (NC_021290)</option>
+				<option value="NC_008570">Aeromonas hydrophila subsp. hydrophila str. ATCC 7966 (NC_008570)</option>
+				<option value="NC_009348">Aeromonas salmonicida subsp. salmonicida str. A449 (NC_009348)</option>
+				<option value="NC_015424">Aeromonas veronii str. B565 (NC_015424)</option>
+				<option value="NC_013532">Anaplasma centrale str. Israel (NC_013532)</option>
+				<option value="NC_012026">Anaplasma marginale str. Florida (NC_012026)</option>
+				<option value="NC_007797">Anaplasma phagocytophilum str. HZ (NC_007797)</option>
+				<option value="NC_003997">Bacillus anthracis str. Ames (NC_003997)</option>
+				<option value="NC_008783">Bacillus bacilliformis str. KC583 (NC_008783)</option>
+				<option value="NC_004722">Bacillus cereus str. ATCC 14579 (NC_004722)</option>
+				<option value="NC_011969">Bacillus cereus str. Q1 (NC_011969)</option>
+				<option value="NC_006582">Bacillus clausii str. KSM-K16 (NC_006582)</option>
+				<option value="NC_002570">Bacillus halodurans str. C-125 (NC_002570)</option>
+				<option value="NC_005956">Bacillus henselae str. Houston-1 (NC_005956)</option>
+				<option value="NC_006270">Bacillus licheniformis str. ATCC 14580 (NC_006270)</option>
+				<option value="NC_005955">Bacillus quintana str. Toulouse (NC_005955)</option>
+				<option value="NC_000964">Bacillus subtilis subsp. subtilis str. 168 (NC_000964)</option>
+				<option value="NC_005957">Bacillus thuringiensis serovar konkukian str. 97-27 (NC_005957)</option>
+				<option value="NC_010161">Bacillus tribocorum str. CIP 105476 (NC_010161)</option>
+				<option value="NC_010184">Bacillus weihenstephanensis str. KBAB4 (NC_010184)</option>
+				<option value="NC_010645">Bordetella avium str. 197N (NC_010645)</option>
+				<option value="NC_002927">Bordetella bronchiseptica str. RB50 (NC_002927)</option>
+				<option value="NC_002928">Bordetella parapertussis str. 12822 (NC_002928)</option>
+				<option value="NC_002929">Bordetella pertussis str. Tohama I (NC_002929)</option>
+				<option value="NC_006932">Brucella abortus bv. 1 str. 9-941 chromosome I (NC_006932)</option>
+				<option value="NC_006933">Brucella abortus bv. 1 str. 9-941 chromosome II (NC_006933)</option>
+				<option value="NC_010103">Brucella canis str. ATCC 23365 chromosome I (NC_010103)</option>
+				<option value="NC_010104">Brucella canis str. ATCC 23365 chromosome II (NC_010104)</option>
+				<option value="NC_007618">Brucella melitensis biovar Abortus str. 2308 chromosome I (NC_007618)</option>
+				<option value="NC_007624">Brucella melitensis biovar Abortus str. 2308 chromosome II (NC_007624)</option>
+				<option value="NC_003317">Brucella melitensis bv. 1 str. 16M chromosome I (NC_003317)</option>
+				<option value="NC_003318">Brucella melitensis bv. 1 str. 16M chromosome II (NC_003318)</option>
+				<option value="NC_012441">Brucella melitensis str. ATCC 23457 chromosome I (NC_012441)</option>
+				<option value="NC_012442">Brucella melitensis str. ATCC 23457 chromosome II (NC_012442)</option>
+				<option value="NC_009505">Brucella ovis str. ATCC 25840 chromosome I (NC_009505)</option>
+				<option value="NC_009504">Brucella ovis str. ATCC 25840 chromosome II (NC_009504)</option>
+				<option value="NC_004310">Brucella suis str. 1330 chromosome I (NC_004310)</option>
+				<option value="NC_004311">Brucella suis str. 1330 chromosome II (NC_004311)</option>
+				<option value="NC_011000">Burkholderia cenocepacia str. J2315 chromosome I (NC_011000)</option>
+				<option value="NC_011001">Burkholderia cenocepacia str. J2315 chromosome II (NC_011001)</option>
+				<option value="NC_011002">Burkholderia cenocepacia str. J2315 chromosome III (NC_011002)</option>
+				<option value="NC_006348">Burkholderia mallei str. ATCC 23344 chromosome I (NC_006348)</option>
+				<option value="NC_006349">Burkholderia mallei str. ATCC 23344 chromosome II (NC_006349)</option>
+				<option value="NC_006350">Burkholderia pseudomallei str. K96243 chromosome I (NC_006350)</option>
+				<option value="NC_006351">Burkholderia pseudomallei str. K96243 chromosome II (NC_006351)</option>
+				<option value="NC_007651">Burkholderia thailandensis str. E264 chromosome I (NC_007651)</option>
+				<option value="NC_007650">Burkholderia thailandensis str. E264 chromosome II (NC_007650)</option>
+				<option value="NC_008599">Campylobacter fetus subsp. fetus str. 82-40 (NC_008599)</option>
+				<option value="NC_003912">Campylobacter jejuni str. RM1221 (NC_003912)</option>
+				<option value="NC_009707">Campylobacter jejuni subsp. doylei str. 269.97 (NC_009707)</option>
+				<option value="NC_009839">Campylobacter jejuni subsp. jejuni str. 81116 (NC_009839)</option>
+				<option value="NC_004552">Chlamydia abortus str. S26/3 (NC_004552)</option>
+				<option value="NC_003361">Chlamydia caviae str. GPIC (NC_003361)</option>
+				<option value="NC_007899">Chlamydia felis str. Fe/C-56 (NC_007899)</option>
+				<option value="NC_002620">Chlamydia muridarum str. Nigg (NC_002620)</option>
+				<option value="NC_002491">Chlamydia pneumoniae str. J138 (NC_002491)</option>
+				<option value="NC_010287">Chlamydia trachomatis str. 434/Bu (NC_010287)</option>
+				<option value="NC_007429">Chlamydia trachomatis str. A/HAR-13 (NC_007429)</option>
+				<option value="NC_000117">Chlamydia trachomatis str. D/UW-3/CX (NC_000117)</option>
+				<option value="NC_010280">Chlamydia trachomatis str. L2b/UCH-1/proctitis (NC_010280)</option>
+				<option value="NC_003030">Clostridium acetobutylicum str. ATCC 824 (NC_003030)</option>
+				<option value="NC_009617">Clostridium beijerinckii str. NCIMB 8052 (NC_009617)</option>
+				<option value="NC_009495">Clostridium botulinum A str. ATCC 3502 (NC_009495)</option>
+				<option value="NC_012563">Clostridium botulinum A2 str. Kyoto (NC_012563)</option>
+				<option value="NC_010520">Clostridium botulinum A3 str. Loch Maree (NC_010520)</option>
+				<option value="NC_010674">Clostridium botulinum B str. Eklund 17B (NC_010674)</option>
+				<option value="NC_010516">Clostridium botulinum B1 str. Okra (NC_010516)</option>
+				<option value="NC_010723">Clostridium botulinum E3 str. Alaska E43 (NC_010723)</option>
+				<option value="NC_009699">Clostridium botulinum F str. Langeland (NC_009699)</option>
+				<option value="NC_009089">Clostridium difficile str. 630 (NC_009089)</option>
+				<option value="NC_008593">Clostridium novyi str. NT (NC_008593)</option>
+				<option value="NC_008261">Clostridium perfringens str. ATCC 13124 (NC_008261)</option>
+				<option value="NC_004557">Clostridium tetani str. E88 (NC_004557)</option>
+				<option value="NC_009012">Clostridium thermocellum str. ATCC 27405 (NC_009012)</option>
+				<option value="NC_002935">Corynebacterium diphtheriae str. NCTC 13129 (NC_002935)</option>
+				<option value="NC_004369">Corynebacterium efficiens str. YS-314 (NC_004369)</option>
+				<option value="NC_003450">Corynebacterium glutamicum str. ATCC 13032 (NC_003450)</option>
+				<option value="NC_007164">Corynebacterium jeikeium str. K411 (NC_007164)</option>
+				<option value="NC_014329">Corynebacterium pseudotuberculosis str. FRC41 (NC_014329)</option>
+				<option value="NC_002971">Coxiella burnetii str. RSA 493 (NC_002971)</option>
+				<option value="NC_018221">Enterococcus faecalis str. D32 (NC_018221)</option>
+				<option value="NC_004668">Enterococcus faecalis str. V583 (NC_004668)</option>
+				<option value="NC_017960">Enterococcus faecium str. DO (NC_017960)</option>
+				<option value="NC_018650">Escherichia coli O104:H4 str. 2009EL-2050 (NC_018650)</option>
+				<option value="NC_002695">Escherichia coli O157:H7 str. Sakai (NC_002695)</option>
+				<option value="NZ_HG941718">Escherichia coli O25b:H4-ST131 strain:EC958 (NZ_HG941718)</option>
+				<option value="NC_013361">Escherichia coli O26:H11 str. 11368 (NC_013361)</option>
+				<option value="NC_017626">Escherichia coli O44:H18 str. 042 (NC_017626)</option>
+				<option value="NC_017656">Escherichia coli O55:H7 str. RM12579 (NC_017656)</option>
+				<option value="NC_017646">Escherichia coli O7:K1 str. CE10 (NC_017646)</option>
+				<option value="NC_017634">Escherichia coli O83:H1 str. NRG 857C (NC_017634)</option>
+				<option value="NC_008253">Escherichia coli str. 536 (NC_008253)</option>
+				<option value="NC_008563">Escherichia coli str. APEC O1 (NC_008563)</option>
+				<option value="NC_000913">Escherichia coli str. K-12 substr. MG1655 (NC_000913)</option>
+				<option value="NC_011745">Escherichia coli str. SMS-3-5 (NC_011745)</option>
+				<option value="NC_017641">Escherichia coli str. UMNK88 (NC_017641)</option>
+				<option value="NC_017909">Francisella noatunensis subsp. orientalis str. Toba 04 (NC_017909)</option>
+				<option value="NC_010336">Francisella philomiragia subsp. philomiragia str. ATCC 25017 (NC_010336)</option>
+				<option value="NC_019551">Francisella tularensis subsp. holarctica str. FSC200 (NC_019551)</option>
+				<option value="NC_010677">Francisella tularensis subsp. mediasiatica str. FSC147 (NC_010677)</option>
+				<option value="NC_006570">Francisella tularensis subsp. tularensis str. SCHU S4 (NC_006570)</option>
+				<option value="AE017143.1">Haemophilus ducreyi 35000HP (AE017143.1)</option>
+				<option value="CP000671.1">Haemophilus influenzae PittEE (CP000671.1)</option>
+				<option value="L42023.1">Haemophilus influenzae Rd KW20 (L42023.1)</option>
+				<option value="CP000436.1">Haemophilus somnus 129PT (CP000436.1)</option>
+				<option value="AM260522.1">Helicobacter acinonychis str. Sheeba (AM260522.1)</option>
+				<option value="AE017125.1">Helicobacter hepaticus ATCC 51449 (AE017125.1)</option>
+				<option value="FN555004.1">Helicobacter mustelae 12198 (FN555004.1)</option>
+				<option value="AE000511.1">Helicobacter pylori 26695 (AE000511.1)</option>
+				<option value="AP006725.1">Klebsiella pneumoniae subsp. pneumoniae NTUH-K2044 (AP006725.1)</option>
+				<option value="CP000964.1">Klebsiella variicola strain 342 (CP000964.1)</option>
+				<option value="FN650140.1">Legionella longbeachae NSW150 (FN650140.1)</option>
+				<option value="AE017354.1">Legionella pneumophila subsp. pneumophila str. Philadelphia 1 (AE017354.1)</option>
+				<option value="AL592022.1">Listeria innocua Clip11262 (AL592022.1)</option>
+				<option value="NC_016011.1">Listeria ivanovii subsp. ivanovii PAM 55 (NC_016011.1)</option>
+				<option value="AL591824.1">Listeria monocytogenes EGD-e (AL591824.1)</option>
+				<option value="FR720325.1">Listeria monocytogenes serotype 7 str. SLCC2482 (FR720325.1)</option>
+				<option value="AE017262.2">Listeria monocytogenes str. 4b F2365 (AE017262.2)</option>
+				<option value="FR733648.1">Listeria monocytogenes strain SLCC2372, serotype 1/2c (FR733648.1)</option>
+				<option value="FR733646.1">Listeria monocytogenes strain SLCC2755, serotype 1/2b (FR733646.1)</option>
+				<option value="FN557490.1">Listeria seeligeri serovar 1/2b str. SLCC3954 (FN557490.1)</option>
+				<option value="AM263198.1">Listeria welshimeri serovar 6b str. SLCC5334 (AM263198.1)</option>
+				<option value="CP003699.2">Mycobacterium abscessus subsp. massiliense str. GO 06 (CP003699.2)</option>
+				<option value="FR878060.1">Mycobacterium africanum GM041182 (FR878060.1)</option>
+				<option value="AE016958.1">Mycobacterium avium subsp. paratuberculosis str. k10 (AE016958.1)</option>
+				<option value="CP002095.1">Mycobacterium bovis BCG str. Mexico (CP002095.1)</option>
+				<option value="FO203507.1">Mycobacterium canettii CIPT 140060008 (FO203507.1)</option>
+				<option value="CP002385.1">Mycobacterium gilvum Spyr1 (CP002385.1)</option>
+				<option value="CP002275.1">Mycobacterium indicus pranii MTCC 9506 (CP002275.1)</option>
+				<option value="AL123456.3">Mycobacterium tuberculosis H37Rv (AL123456.3)</option>
+				<option value="CP000325.1">Mycobacterium ulcerans Agy99 (CP000325.1)</option>
+				<option value="CU179680.1">Mycoplasma agalactiae PG2 (CU179680.1)</option>
+				<option value="CP001047.1">Mycoplasma arthritidis 158L3-1 (CP001047.1)</option>
+				<option value="CP000123.1">Mycoplasma capricolum subsp. capricolum ATCC 27343 (CP000123.1)</option>
+				<option value="NC_012806.1">Mycoplasma conjunctivae HRC/581T (NC_012806.1)</option>
+				<option value="CP001995.1">Mycoplasma fermentans JER (CP001995.1)</option>
+				<option value="AE015450.2">Mycoplasma gallisepticum str. R(low) (AE015450.2)</option>
+				<option value="L43967.2">Mycoplasma genitalium G37 (L43967.2)</option>
+				<option value="FP236530.1">Mycoplasma hominis ATCC 23114 (FP236530.1)</option>
+				<option value="AE017332.1">Mycoplasma hyopneumoniae 232 (AE017332.1)</option>
+				<option value="AE017308.1">Mycoplasma mobile 163K (AE017308.1)</option>
+				<option value="BX293980.2">Mycoplasma mycoides subsp. mycoides SC str. PG1 (BX293980.2)</option>
+				<option value="BA000026.2">Mycoplasma penetrans HF-2 DNA (BA000026.2)</option>
+				<option value="U00089.2">Mycoplasma pneumoniae M129 (U00089.2)</option>
+				<option value="AL445566.1">Mycoplasma pulmonis UAB CTIP (AL445566.1)</option>
+				<option value="AE017245.1">Mycoplasma synoviae 53 (AE017245.1)</option>
+				<option value="CP001050.1">Neisseria gonorrhoeae NCCP11945 (CP001050.1)</option>
+				<option value="FN995097.1">Neisseria lactamica 020-06 (FN995097.1)</option>
+				<option value="AE002098.2">Neisseria meningitidis MC58 (AE002098.2)</option>
+				<option value="AE004091.2">Pseudomonas aeruginosa PAO1 (AE004091.2)</option>
+				<option value="CT573326.1">Pseudomonas entomophila str. L48 (CT573326.1)</option>
+				<option value="AM181176.4">Pseudomonas fluorescens SBW25 (AM181176.4)</option>
+				<option value="CP000680.1">Pseudomonas mendocina ymp (CP000680.1)</option>
+				<option value="AE015451.2">Pseudomonas putida KT2440 (AE015451.2)</option>
+				<option value="NC_005773.3">Pseudomonas savastanoi pv. phaseolicola 1448A (NC_005773.3)</option>
+				<option value="CP000304.1">Pseudomonas stutzeri A1501 (CP000304.1)</option>
+				<option value="CP001612.1">Rickettsia africae ESF-5 (CP001612.1)</option>
+				<option value="CP000847.1">Rickettsia akari str. Hartford (CP000847.1)</option>
+				<option value="CP000849.1">Rickettsia bellii OSU 85-389 (CP000849.1)</option>
+				<option value="CP000409.1">Rickettsia canadensis str. McKiel (CP000409.1)</option>
+				<option value="AE006914.1">Rickettsia conorii str. Malish 7 (AE006914.1)</option>
+				<option value="CP000683.1">Rickettsia massiliae MTU5 (CP000683.1)</option>
+				<option value="CP001227.1">Rickettsia peacockii str. Rustic (CP001227.1)</option>
+				<option value="AJ235269.1">Rickettsia prowazekii str. Madrid E (AJ235269.1)</option>
+				<option value="CP000766.3">Rickettsia rickettsii str. Iowa (CP000766.3)</option>
+				<option value="AE017197.1">Rickettsia typhi str. Wilmington (AE017197.1)</option>
+				<option value="NC_010067.1">Salmonella enterica subsp. arizonae serovar 62:z4,z23:-- (NC_010067.1)</option>
+				<option value="CP001138.1">Salmonella enterica subsp. enterica serovar Agona str. SL483 (CP001138.1)</option>
+				<option value="AE017220.1">Salmonella enterica subsp. enterica serovar Choleraesuis str. SC-B67 (AE017220.1)</option>
+				<option value="CP001144.1">Salmonella enterica subsp. enterica serovar Dublin str. CT_02021853 (CP001144.1)</option>
+				<option value="AM933172.1">Salmonella enterica subsp. enterica serovar Enteritidis str. P125109 (AM933172.1)</option>
+				<option value="AM933173.1">Salmonella enterica subsp. enterica serovar Gallinarum str. 287/91 (AM933173.1)</option>
+				<option value="CP001120.1">Salmonella enterica subsp. enterica serovar Heidelberg str. SL476 (CP001120.1)</option>
+				<option value="CP001113.1">Salmonella enterica subsp. enterica serovar Newport str. SL254 (CP001113.1)</option>
+				<option value="FM200053.1">Salmonella enterica subsp. enterica serovar Paratyphi A str. AKU_12601 (FM200053.1)</option>
+				<option value="CP000026.1">Salmonella enterica subsp. enterica serovar Paratyphi A str. ATCC 9150 (CP000026.1)</option>
+				<option value="CP000886.1">Salmonella enterica subsp. enterica serovar Paratyphi B str. SPB7 (CP000886.1)</option>
+				<option value="NC_012125.1">Salmonella enterica subsp. enterica serovar Paratyphi C strain RKS4594 (NC_012125.1)</option>
+				<option value="CP001127.1">Salmonella enterica subsp. enterica serovar Schwarzengrund str. CVM19633 (CP001127.1)</option>
+				<option value="AL513382.1">Salmonella enterica subsp. enterica serovar Typhi str. CT18 (AL513382.1)</option>
+				<option value="AE014613.1">Salmonella enterica subsp. enterica serovar Typhi Ty2 (AE014613.1)</option>
+				<option value="AE006468.2">Salmonella enterica subsp. enterica serovar Typhimurium str. LT2 (AE006468.2)</option>
+				<option value="CP000036.1">Shigella boydii Sb227 (CP000036.1)</option>
+				<option value="CP000034.1">Shigella dysenteriae Sd197 (CP000034.1)</option>
+				<option value="AE014073.1">Shigella flexneri 2a str. 2457T (AE014073.1)</option>
+				<option value="CP000266.1">Shigella flexneri 5 str. 8401 (CP000266.1)</option>
+				<option value="CP000038.1">Shigella sonnei Ss046 (CP000038.1)</option>
+				<option value="AJ938182.1">Staphylococcus aureus RF122 (AJ938182.1)</option>
+				<option value="AP009324.1">Staphylococcus aureus subsp. aureus Mu3 (AP009324.1)</option>
+				<option value="BA000017.4">Staphylococcus aureus subsp. aureus Mu50 (BA000017.4)</option>
+				<option value="CP000029.1">Staphylococcus epidermidis RP62A (CP000029.1)</option>
+				<option value="AP006716.1">Staphylococcus haemolyticus JCSC1435 (AP006716.1)</option>
+				<option value="AP008934.1">Staphylococcus saprophyticus subsp. saprophyticus ATCC 15305 (AP008934.1)</option>
+				<option value="CP000114.1">Streptococcus agalactiae A909 (CP000114.1)</option>
+				<option value="AP010935.1">Streptococcus dysgalactiae subsp. equisimilis GGS_124 (AP010935.1)</option>
+				<option value="FM204883.1">Streptococcus equi subsp. equi 4047 (FM204883.1)</option>
+				<option value="CP001129.1">Streptococcus equi subsp. zooepidemicus MGCS10565 (CP001129.1)</option>
+				<option value="CP000725.1">Streptococcus gordonii str. Challis substr. CH1 (CP000725.1)</option>
+				<option value="AP010655.1">Streptococcus mutans NN2025 (AP010655.1)</option>
+				<option value="AE007317.1">Streptococcus pneumoniae R6 (AE007317.1)</option>
+				<option value="CP000017.2">Streptococcus pyogenes MGAS5005 (CP000017.2)</option>
+				<option value="CP000387.1">Streptococcus sanguinis SK36 (CP000387.1)</option>
+				<option value="CP000407.1">Streptococcus suis 05ZYH33 (CP000407.1)</option>
+				<option value="CP000419.1">Streptococcus thermophilus LMD-9 (CP000419.1)</option>
+				<option value="AE003852.1">Vibrio cholerae O1 biovar eltor str. N16961 chromosome I (AE003852.1)</option>
+				<option value="AE003853.1">Vibrio cholerae O1 biovar eltor str. N16961 chromosome II (AE003853.1)</option>
+				<option value="CP000020.2">Vibrio fischeri ES114 chromosome I (CP000020.2)</option>
+				<option value="CP000021.2">Vibrio fischeri ES114 chromosome II (CP000021.2)</option>
+				<option value="BA000031.2">Vibrio parahaemolyticus RIMD 2210633 (BA000031.2)</option>
+				<option value="BA000032.2">Vibrio parahaemolyticus RIMD 2210633 (BA000032.2)</option>
+				<option value="AE016795.3">Vibrio vulnificus CMCP6 chromosome I (AE016795.3)</option>
+				<option value="AE016796.2">Vibrio vulnificus CMCP6 chromosome II (AE016796.2)</option>
+				<option value="AM286415.1">Yersinia enterocolitica subsp. enterocolitica 8081 (AM286415.1)</option>
+				<option value="NC_015224.1">Yersinia enterocolitica subsp. palearctica 105.5R(r) (NC_015224.1)</option>
+				<option value="AE017042.1">Yersinia pestis biovar Microtus str. 91001 (AE017042.1)</option>
+				<option value="CP000720.1">Yersinia pseudotuberculosis IP 31758 (CP000720.1)</option>
+			</select>
+			<br/>
+		
+			<p>
+			&bull; Select your target genome of interest.<br/>
+			&bull; If there is no match, do select the most closest genome with yours.<br/>
+			&bull; The selection of target genome is important for genome-wide off-target analysis.
+			</p><br/><br/>
+
+			<h5>2. Paste a sequence</h5>
+			<textarea class="form-control" id="grnaseq" name="sequence" rows="8">ATGATGATAAAGAAAAAGGCTGCGTTTAGTGAATATCGTGATTTAGAGCAAAGTTACATGCAGCTAAATCACTGTCTTAAAAAATTTCACCAAATCCGGGCTAAGGTGAGTCAACAGCTTGCTGAAAGGGCAGAGAGCCCCAAAAATAGCAGAGAGACAGAGAGTATTCTTCATAACCTATTTCCACAAGGCGTTGCCGGGGTTAACCAGGAGGCCGAGAAGGATTTAAAGAAAATAGTAAGTTTGTTTAAACAACTTGAAGTACGACTGAAACAACTTAATGCTCAAGCCCCGGTGGAGATACCGTCAGGAAAAACAAAAAGGTAA
+			</textarea><br/>
+
+			<p>
+			&bull; Paste your DNA sequence of interest e.g. gene sequence.<br/>
+			&bull; Make sure to paste sequence only. Remove the fasta header if exists.<br/>
+			&bull; The sequence must be all capitalized.<br/>
+			&bull; Remove the line breaks if exist.
+			</p><br/>
+
+			<h5>3. PAM sequence</h5>
+			<div class="selectorganism2">
+			<select class="form-control form-select" id="pam" name="pamsequence" placeholder="Select">
+				<option value="GG">SpCas9 (NGG)</option>
+			</select>
+			</div><br/>
+
+			<p>
+			&bull; PAM (Protospacer Adjacent Motif)<br/>
+			&bull; The choosing of PAM sequence is depending on the Cas9 used in experiment.<br/>
+			&bull; For example, Streptococcus pyogenes Cas9 (SpCas9) recognizes NGG site (N stand for any nucleotide).<br/>
+			&bull; Only NGG site is provided at the moment.
+			</p><br/>
+		</section>
+
+
+		<!-- LIST OF BACTERIA -->
+		<section id="database">
+			<h3>List of bacterial genomes</h3><hr/><br/>
+			<p> CRISPRBAC provides a wide range of bacterial species as a template for genome modification such as Salmonella, E. coli and Pseudomonas.
+			Here is a total of 217 bacterial genomes that were kept in our database.
+			</p><br/></br>
+			
+			<!-- <div class="tablewrap"> -->
+				<table class="table table-hover ">
+					<thead>
+						<tr><th>#</th><th>Genus</th><th>Genome</th></tr>
+					</thead>
+					<tbody>
+						<tr><td>1</td><td>Acinobacter</td><td>Acinobacter baumannii str. ACICU (NC_010611)</td></tr>
+						<tr><td>2</td><td>Aeromonas</td><td>Aeromonas hydrophila str. ML09-119 (NC_021290)</td></tr>
+						<tr><td>3</td><td></td><td>Aeromonas hydrophila subsp. hydrophila str. ATCC 7966 (NC_008570)</td></tr>
+						<tr><td>4</td><td></td><td>Aeromonas salmonicida subsp. salmonicida str. A449 (NC_009348)</td></tr>
+						<tr><td>5</td><td></td><td>Aeromonas veronii str. B565 (NC_015424)</td></tr>
+						<tr><td>6</td><td>Anaplasma</td><td>Anaplasma centrale str. Israel (NC_013532)</td></tr>
+						<tr><td>7</td><td></td><td>Anaplasma marginale str. Florida (NC_012026)</td></tr>
+						<tr><td>8</td><td></td><td>Anaplasma phagocytophilum str. HZ (NC_007797)</td></tr>
+						<tr><td>9</td><td>Bacillus</td><td>Bacillus anthracis str. Ames (NC_003997)</td></tr>
+						<tr><td>10</td><td></td><td>Bacillus bacilliformis str. KC583 (NC_008783)</td></tr>
+						<tr><td>11</td><td></td><td>Bacillus cereus str. ATCC 14579 (NC_004722)</td></tr>
+						<tr><td>12</td><td></td><td>Bacillus cereus str. Q1 (NC_011969)</td></tr>
+						<tr><td>13</td><td></td><td>Bacillus clausii str. KSM-K16 (NC_006582)</td></tr>
+						<tr><td>14</td><td></td><td>Bacillus halodurans str. C-125 (NC_002570)</td></tr>
+						<tr><td>15</td><td></td><td>Bacillus henselae str. Houston-1 (NC_005956)</td></tr>
+						<tr><td>16</td><td></td><td>Bacillus licheniformis str. ATCC 14580 (NC_006270)</td></tr>
+						<tr><td>17</td><td></td><td>Bacillus quintana str. Toulouse (NC_005955)</td></tr>
+						<tr><td>18</td><td></td><td>Bacillus subtilis subsp. subtilis str. 168 (NC_000964)</td></tr>
+						<tr><td>19</td><td></td><td>Bacillus thuringiensis serovar konkukian str. 97-27 (NC_005957)</td></tr>
+						<tr><td>20</td><td></td><td>Bacillus tribocorum str. CIP 105476 (NC_010161)</td></tr>
+						<tr><td>21</td><td></td><td>Bacillus weihenstephanensis str. KBAB4 (NC_010184)</td></tr>
+						<tr><td>22</td><td>Bordetella</td><td>Bordetella avium str. 197N (NC_010645)</td></tr>
+						<tr><td>23</td><td></td><td>Bordetella bronchiseptica str. RB50 (NC_002927)</td></tr>
+						<tr><td>24</td><td></td><td>Bordetella parapertussis str. 12822 (NC_002928)</td></tr>
+						<tr><td>25</td><td></td><td>Bordetella pertussis str. Tohama I (NC_002929)</td></tr>
+						<tr><td>26</td><td>Brucella</td><td>Brucella abortus bv. 1 str. 9-941 chromosome I (NC_006932)</td></tr>
+						<tr><td>27</td><td></td><td>Brucella abortus bv. 1 str. 9-941 chromosome II (NC_006933)</td></tr>
+						<tr><td>28</td><td></td><td>Brucella canis str. ATCC 23365 chromosome I (NC_010103)</td></tr>
+						<tr><td>29</td><td></td><td>Brucella canis str. ATCC 23365 chromosome II (NC_010104)</td></tr>
+						<tr><td>30</td><td></td><td>Brucella melitensis biovar Abortus str. 2308 chromosome I (NC_007618)</td></tr>
+						<tr><td>31</td><td></td><td>Brucella melitensis biovar Abortus str. 2308 chromosome II (NC_007624)</td></tr>
+						<tr><td>32</td><td></td><td>Brucella melitensis bv. 1 str. 16M chromosome I (NC_003317)</td></tr>
+						<tr><td>33</td><td></td><td>Brucella melitensis bv. 1 str. 16M chromosome II (NC_003318)</td></tr>
+						<tr><td>34</td><td></td><td>Brucella melitensis str. ATCC 23457 chromosome I (NC_012441)</td></tr>
+						<tr><td>35</td><td></td><td>Brucella melitensis str. ATCC 23457 chromosome II (NC_012442)</td></tr>
+						<tr><td>36</td><td></td><td>Brucella ovis str. ATCC 25840 chromosome I (NC_009505)</td></tr>
+						<tr><td>37</td><td></td><td>Brucella ovis str. ATCC 25840 chromosome II (NC_009504)</td></tr>
+						<tr><td>38</td><td></td><td>Brucella suis str. 1330 chromosome I (NC_004310)</td></tr>
+						<tr><td>39</td><td></td><td>Brucella suis str. 1330 chromosome II (NC_004311)</td></tr>
+						<tr><td>40</td><td>Burkholderia</td><td>Burkholderia cenocepacia str. J2315 chromosome I (NC_011000)</td></tr>
+						<tr><td>41</td><td></td><td>Burkholderia cenocepacia str. J2315 chromosome II (NC_011001)</td></tr>
+						<tr><td>42</td><td></td><td>Burkholderia cenocepacia str. J2315 chromosome III (NC_011002)</td></tr>
+						<tr><td>43</td><td></td><td>Burkholderia mallei str. ATCC 23344 chromosome I (NC_006348)</td></tr>
+						<tr><td>44</td><td></td><td>Burkholderia mallei str. ATCC 23344 chromosome II (NC_006349)</td></tr>
+						<tr><td>45</td><td></td><td>Burkholderia pseudomallei str. K96243 chromosome I (NC_006350)</td></tr>
+						<tr><td>46</td><td></td><td>Burkholderia pseudomallei str. K96243 chromosome II (NC_006351)</td></tr>
+						<tr><td>47</td><td></td><td>Burkholderia thailandensis str. E264 chromosome I (NC_007651)</td></tr>
+						<tr><td>48</td><td></td><td>Burkholderia thailandensis str. E264 chromosome II (NC_007650)</td></tr>
+						<tr><td>49</td><td>Campylobacter</td><td>Campylobacter fetus subsp. fetus str. 82-40 (NC_008599)</td></tr>
+						<tr><td>50</td><td></td><td>Campylobacter jejuni str. RM1221 (NC_003912)</td></tr>
+						<tr><td>51</td><td></td><td>Campylobacter jejuni subsp. doylei str. 269.97 (NC_009707)</td></tr>
+						<tr><td>52</td><td></td><td>Campylobacter jejuni subsp. jejuni str. 81116 (NC_009839)</td></tr>
+						<tr><td>53</td><td>Chlamydia</td><td>Chlamydia abortus str. S26/3 (NC_004552)</td></tr>
+						<tr><td>54</td><td></td><td>Chlamydia caviae str. GPIC (NC_003361)</td></tr>
+						<tr><td>55</td><td></td><td>Chlamydia felis str. Fe/C-56 (NC_007899)</td></tr>
+						<tr><td>56</td><td></td><td>Chlamydia muridarum str. Nigg (NC_002620)</td></tr>
+						<tr><td>57</td><td></td><td>Chlamydia pneumoniae str. J138 (NC_002491)</td></tr>
+						<tr><td>58</td><td></td><td>Chlamydia trachomatis str. 434/Bu (NC_010287)</td></tr>
+						<tr><td>59</td><td></td><td>Chlamydia trachomatis str. A/HAR-13 (NC_007429)</td></tr>
+						<tr><td>60</td><td></td><td>Chlamydia trachomatis str. D/UW-3/CX (NC_000117)</td></tr>
+						<tr><td>61</td><td></td><td>Chlamydia trachomatis str. L2b/UCH-1/proctitis (NC_010280)</td></tr>
+						<tr><td>62</td><td>Clostridium</td><td>Clostridium acetobutylicum str. ATCC 824 (NC_003030)</td></tr>
+						<tr><td>63</td><td></td><td>Clostridium beijerinckii str. NCIMB 8052 (NC_009617)</td></tr>
+						<tr><td>64</td><td></td><td>Clostridium botulinum A str. ATCC 3502 (NC_009495)</td></tr>
+						<tr><td>65</td><td></td><td>Clostridium botulinum A2 str. Kyoto (NC_012563)</td></tr>
+						<tr><td>66</td><td></td><td>Clostridium botulinum A3 str. Loch Maree (NC_010520)</td></tr>
+						<tr><td>67</td><td></td><td>Clostridium botulinum B str. Eklund 17B (NC_010674)</td></tr>
+						<tr><td>68</td><td></td><td>Clostridium botulinum B1 str. Okra (NC_010516)</td></tr>
+						<tr><td>69</td><td></td><td>Clostridium botulinum E3 str. Alaska E43 (NC_010723)</td></tr>
+						<tr><td>70</td><td></td><td>Clostridium botulinum F str. Langeland (NC_009699)</td></tr>
+						<tr><td>71</td><td></td><td>Clostridium difficile str. 630 (NC_009089)</td></tr>
+						<tr><td>72</td><td></td><td>Clostridium novyi str. NT (NC_008593)</td></tr>
+						<tr><td>73</td><td></td><td>Clostridium perfringens str. ATCC 13124 (NC_008261)</td></tr>
+						<tr><td>74</td><td></td><td>Clostridium tetani str. E88 (NC_004557)</td></tr>
+						<tr><td>75</td><td></td><td>Clostridium thermocellum str. ATCC 27405 (NC_009012)</td></tr>
+						<tr><td>76</td><td>Corynebacterium</td><td>Corynebacterium diphtheriae str. NCTC 13129 (NC_002935)</td></tr>
+						<tr><td>77</td><td></td><td>Corynebacterium efficiens str. YS-314 (NC_004369)</td></tr>
+						<tr><td>78</td><td></td><td>Corynebacterium glutamicum str. ATCC 13032 (NC_003450)</td></tr>
+						<tr><td>79</td><td></td><td>Corynebacterium jeikeium str. K411 (NC_007164)</td></tr>
+						<tr><td>80</td><td></td><td>Corynebacterium pseudotuberculosis str. FRC41 (NC_014329)</td></tr>
+						<tr><td>81</td><td>Coxiella</td><td>Coxiella burnetii str. RSA 493 (NC_002971)</td></tr>
+						<tr><td>82</td><td>Enterococcus</td><td>Enterococcus faecalis str. D32 (NC_018221)</td></tr>
+						<tr><td>83</td><td></td><td>Enterococcus faecalis str. V583 (NC_004668)</td></tr>
+						<tr><td>84</td><td></td><td>Enterococcus faecium str. DO (NC_017960)</td></tr>
+						<tr><td>85</td><td>Escherichia</td><td>Escherichia </td></tr>
+						<tr><td>86</td><td></td><td>Escherichia coli O104:H4 str. 2009EL-2050 (NC_018650)</td></tr>
+						<tr><td>87</td><td></td><td>Escherichia coli O157:H7 str. Sakai (NC_002695)</td></tr>
+						<tr><td>88</td><td></td><td>Escherichia coli O25b:H4-ST131 strain:EC958 (NZ_HG941718)</td></tr>
+						<tr><td>89</td><td></td><td>Escherichia coli O26:H11 str. 11368 (NC_013361)</td></tr>
+						<tr><td>90</td><td></td><td>Escherichia coli O44:H18 str. 042 (NC_017626)</td></tr>
+						<tr><td>91</td><td></td><td>Escherichia coli O55:H7 str. RM12579 (NC_017656)</td></tr>
+						<tr><td>92</td><td></td><td>Escherichia coli O7:K1 str. CE10 (NC_017646)</td></tr>
+						<tr><td>93</td><td></td><td>Escherichia coli O83:H1 str. NRG 857C (NC_017634)</td></tr>
+						<tr><td>94</td><td></td><td>Escherichia coli str. 536 (NC_008253)</td></tr>
+						<tr><td>95</td><td></td><td>Escherichia coli str. APEC O1 (NC_008563)</td></tr>
+						<tr><td>96</td><td></td><td>Escherichia coli str. K-12 substr. MG1655 (NC_000913)</td></tr>
+						<tr><td>97</td><td></td><td>Escherichia coli str. SMS-3-5 (NC_011745)</td></tr>
+						<tr><td>98</td><td></td><td>Escherichia coli str. UMNK88 (NC_017641)</td></tr>
+						<tr><td>99</td><td></td><td>Francisella noatunensis subsp. orientalis str. Toba 04 (NC_017909)</td></tr>
+						<tr><td>100</td><td>Francisella</td><td>Francisella philomiragia subsp. philomiragia str. ATCC 25017 (NC_010336)</td></tr>
+						<tr><td>101</td><td></td><td>Francisella tularensis subsp. holarctica str. FSC200 (NC_019551)</td></tr>
+						<tr><td>102</td><td></td><td>Francisella tularensis subsp. mediasiatica str. FSC147 (NC_010677)</td></tr>
+						<tr><td>103</td><td></td><td>Francisella tularensis subsp. tularensis str. SCHU S4 (NC_006570)</td></tr>
+						<tr><td>104</td><td>Haemophilus</td><td>Haemophilus ducreyi 35000HP (AE017143.1)</td></tr>
+						<tr><td>105</td><td></td><td>Haemophilus influenzae PittEE (CP000671.1)</td></tr>
+						<tr><td>106</td><td></td><td>Haemophilus influenzae Rd KW20 (L42023.1)</td></tr>
+						<tr><td>107</td><td></td><td>Haemophilus somnus 129PT (CP000436.1)</td></tr>
+						<tr><td>108</td><td>Helicobacter</td><td>Helicobacter acinonychis str. Sheeba (AM260522.1)</td></tr>
+						<tr><td>109</td><td></td><td>Helicobacter hepaticus ATCC 51449 (AE017125.1)</td></tr>
+						<tr><td>110</td><td></td><td>Helicobacter mustelae 12198 (FN555004.1)</td></tr>
+						<tr><td>111</td><td></td><td>Helicobacter pylori 26695 (AE000511.1)</td></tr>
+						<tr><td>112</td><td>Klebsiella</td><td>Klebsiella pneumoniae subsp. pneumoniae NTUH-K2044 (AP006725.1)</td></tr>
+						<tr><td>113</td><td></td><td>Klebsiella variicola strain 342 (CP000964.1)</td></tr>
+						<tr><td>114</td><td>Legionella</td><td>Legionella longbeachae NSW150 (FN650140.1)</td></tr>
+						<tr><td>115</td><td></td><td>Legionella pneumophila subsp. pneumophila str. Philadelphia 1 (AE017354.1)</td></tr>
+						<tr><td>116</td><td>Listeria</td><td>Listeria innocua Clip11262 (AL592022.1)</td></tr>
+						<tr><td>117</td><td></td><td>Listeria ivanovii subsp. ivanovii PAM 55 (NC_016011.1)</td></tr>
+						<tr><td>118</td><td></td><td>Listeria monocytogenes EGD-e (AL591824.1)</td></tr>
+						<tr><td>119</td><td></td><td>Listeria monocytogenes serotype 7 str. SLCC2482 (FR720325.1)</td></tr>
+						<tr><td>120</td><td></td><td>Listeria monocytogenes str. 4b F2365 (AE017262.2)</td></tr>
+						<tr><td>121</td><td></td><td>Listeria monocytogenes strain SLCC2372, serotype 1/2c (FR733648.1)</td></tr>
+						<tr><td>122</td><td></td><td>Listeria monocytogenes strain SLCC2755, serotype 1/2b (FR733646.1)</td></tr>
+						<tr><td>123</td><td></td><td>Listeria seeligeri serovar 1/2b str. SLCC3954 (FN557490.1)</td></tr>
+						<tr><td>124</td><td></td><td>Listeria welshimeri serovar 6b str. SLCC5334 (AM263198.1)</td></tr>
+						<tr><td>125</td><td>Mycobacterium</td><td>Mycobacterium abscessus subsp. massiliense str. GO 06 (CP003699.2)</td></tr>
+						<tr><td>126</td><td></td><td>Mycobacterium africanum GM041182 (FR878060.1)</td></tr>
+						<tr><td>127</td><td></td><td>Mycobacterium avium subsp. paratuberculosis str. k10 (AE016958.1)</td></tr>
+						<tr><td>128</td><td></td><td>Mycobacterium bovis BCG str. Mexico (CP002095.1)</td></tr>
+						<tr><td>129</td><td></td><td>Mycobacterium canettii CIPT 140060008 (FO203507.1)</td></tr>
+						<tr><td>130</td><td></td><td>Mycobacterium gilvum Spyr1 (CP002385.1)</td></tr>
+						<tr><td>131</td><td></td><td>Mycobacterium indicus pranii MTCC 9506 (CP002275.1)</td></tr>
+						<tr><td>132</td><td></td><td>Mycobacterium tuberculosis H37Rv (AL123456.3)</td></tr>
+						<tr><td>133</td><td></td><td>Mycobacterium ulcerans Agy99 (CP000325.1)</td></tr>
+						<tr><td>134</td><td>Mycoplasma</td><td>Mycoplasma agalactiae PG2 (CU179680.1)</td></tr>
+						<tr><td>135</td><td></td><td>Mycoplasma arthritidis 158L3-1 (CP001047.1)</td></tr>
+						<tr><td>136</td><td></td><td>Mycoplasma capricolum subsp. capricolum ATCC 27343 (CP000123.1)</td></tr>
+						<tr><td>137</td><td></td><td>Mycoplasma conjunctivae HRC/581T (NC_012806.1)</td></tr>
+						<tr><td>138</td><td></td><td>Mycoplasma fermentans JER (CP001995.1)</td></tr>
+						<tr><td>139</td><td></td><td>Mycoplasma gallisepticum str. R(low) (AE015450.2)</td></tr>
+						<tr><td>140</td><td></td><td>Mycoplasma genitalium G37 (L43967.2)</td></tr>
+						<tr><td>141</td><td></td><td>Mycoplasma hominis ATCC 23114 (FP236530.1)</td></tr>
+						<tr><td>142</td><td></td><td>Mycoplasma hyopneumoniae 232 (AE017332.1)</td></tr>
+						<tr><td>143</td><td></td><td>Mycoplasma mobile 163K (AE017308.1)</td></tr>
+						<tr><td>144</td><td></td><td>Mycoplasma mycoides subsp. mycoides SC str. PG1 (BX293980.2)</td></tr>
+						<tr><td>145</td><td></td><td>Mycoplasma penetrans HF-2 DNA (BA000026.2)</td></tr>
+						<tr><td>146</td><td></td><td>Mycoplasma pneumoniae M129 (U00089.2)</td></tr>
+						<tr><td>147</td><td></td><td>Mycoplasma pulmonis UAB CTIP (AL445566.1)</td></tr>
+						<tr><td>148</td><td></td><td>Mycoplasma synoviae 53 (AE017245.1)</td></tr>
+						<tr><td>149</td><td>Neisseria</td><td>Neisseria gonorrhoeae NCCP11945 (CP001050.1)</td></tr>
+						<tr><td>150</td><td></td><td>Neisseria lactamica 020-06 (FN995097.1)</td></tr>
+						<tr><td>151</td><td></td><td>Neisseria meningitidis MC58 (AE002098.2)</td></tr>
+						<tr><td>152</td><td>Pseudomonas</td><td>Pseudomonas aeruginosa PAO1 (AE004091.2)</td></tr>
+						<tr><td>153</td><td></td><td>Pseudomonas entomophila str. L48 (CT573326.1)</td></tr>
+						<tr><td>154</td><td></td><td>Pseudomonas fluorescens SBW25 (AM181176.4)</td></tr>
+						<tr><td>155</td><td></td><td>Pseudomonas mendocina ymp (CP000680.1)</td></tr>
+						<tr><td>156</td><td></td><td>Pseudomonas putida KT2440 (AE015451.2)</td></tr>
+						<tr><td>157</td><td></td><td>Pseudomonas savastanoi pv. phaseolicola 1448A (NC_005773.3)</td></tr>
+						<tr><td>158</td><td></td><td>Pseudomonas stutzeri A1501 (CP000304.1)</td></tr>
+						<tr><td>159</td><td>Rickettsia</td><td>Rickettsia africae ESF-5 (CP001612.1)</td></tr>
+						<tr><td>160</td><td></td><td>Rickettsia akari str. Hartford (CP000847.1)</td></tr>
+						<tr><td>161</td><td></td><td>Rickettsia bellii OSU 85-389 (CP000849.1)</td></tr>
+						<tr><td>162</td><td></td><td>Rickettsia canadensis str. McKiel (CP000409.1)</td></tr>
+						<tr><td>163</td><td></td><td>Rickettsia conorii str. Malish 7 (AE006914.1)</td></tr>
+						<tr><td>164</td><td></td><td>Rickettsia massiliae MTU5 (CP000683.1)</td></tr>
+						<tr><td>165</td><td></td><td>Rickettsia peacockii str. Rustic (CP001227.1)</td></tr>
+						<tr><td>166</td><td></td><td>Rickettsia prowazekii str. Madrid E (AJ235269.1)</td></tr>
+						<tr><td>167</td><td></td><td>Rickettsia rickettsii str. Iowa (CP000766.3)</td></tr>
+						<tr><td>168</td><td></td><td>Rickettsia typhi str. Wilmington (AE017197.1)</td></tr>
+						<tr><td>169</td><td>Salmonella</td><td>Salmonella enterica subsp. arizonae serovar 62:z4,z23:-- (NC_010067.1)</td></tr>
+						<tr><td>169</td><td></td><td>Salmonella enterica subsp. enterica serovar Agona str. SL483 (CP001138.1)</td></tr>
+						<tr><td>170</td><td></td><td>Salmonella enterica subsp. enterica serovar Choleraesuis str. SC-B67 (AE017220.1)</td></tr>
+						<tr><td>171</td><td></td><td>Salmonella enterica subsp. enterica serovar Dublin str. CT_02021853 (CP001144.1)</td></tr>
+						<tr><td>172</td><td></td><td>Salmonella enterica subsp. enterica serovar Enteritidis str. P125109 (AM933172.1)</td></tr>
+						<tr><td>173</td><td></td><td>Salmonella enterica subsp. enterica serovar Gallinarum str. 287/91 (AM933173.1)</td></tr>
+						<tr><td>174</td><td></td><td>Salmonella enterica subsp. enterica serovar Heidelberg str. SL476 (CP001120.1)</td></tr>
+						<tr><td>175</td><td></td><td>Salmonella enterica subsp. enterica serovar Newport str. SL254 (CP001113.1)</td></tr>
+						<tr><td>176</td><td></td><td>Salmonella enterica subsp. enterica serovar Paratyphi A str. AKU_12601 (FM200053.1)</td></tr>
+						<tr><td>177</td><td></td><td>Salmonella enterica subsp. enterica serovar Paratyphi A str. ATCC 9150 (CP000026.1)</td></tr>
+						<tr><td>178</td><td></td><td>Salmonella enterica subsp. enterica serovar Paratyphi B str. SPB7 (CP000886.1)</td></tr>
+						<tr><td>179</td><td></td><td>Salmonella enterica subsp. enterica serovar Paratyphi C strain RKS4594 (NC_012125.1)</td></tr>
+						<tr><td>180</td><td></td><td>Salmonella enterica subsp. enterica serovar Schwarzengrund str. CVM19633 (CP001127.1)</td></tr>
+						<tr><td>181</td><td></td><td>Salmonella enterica subsp. enterica serovar Typhi str. CT18 (AL513382.1)</td></tr>
+						<tr><td>182</td><td></td><td>Salmonella enterica subsp. enterica serovar Typhi Ty2 (AE014613.1)</td></tr>
+						<tr><td>183</td><td></td><td>Salmonella enterica subsp. enterica serovar Typhimurium str. LT2 (AE006468.2)</td></tr>
+						<tr><td>184</td><td>Shigella</td><td>Shigella boydii Sb227 (CP000036.1)</td></tr>
+						<tr><td>185</td><td></td><td>Shigella dysenteriae Sd197 (CP000034.1)</td></tr>
+						<tr><td>186</td><td></td><td>Shigella flexneri 2a str. 2457T (AE014073.1)</td></tr>
+						<tr><td>187</td><td></td><td>Shigella flexneri 5 str. 8401 (CP000266.1)</td></tr>
+						<tr><td>188</td><td></td><td>Shigella sonnei Ss046 (CP000038.1)</td></tr>
+						<tr><td>189</td><td>Staphylococcus</td><td>Staphylococcus aureus RF122 (AJ938182.1)</td></tr>
+						<tr><td>190</td><td></td><td>Staphylococcus aureus subsp. aureus Mu3 (AP009324.1)</td></tr>
+						<tr><td>191</td><td></td><td>Staphylococcus aureus subsp. aureus Mu50 (BA000017.4)</td></tr>
+						<tr><td>192</td><td></td><td>Staphylococcus epidermidis RP62A (CP000029.1)</td></tr>
+						<tr><td>193</td><td></td><td>Staphylococcus haemolyticus JCSC1435 (AP006716.1)</td></tr>
+						<tr><td>194</td><td></td><td>Staphylococcus saprophyticus subsp. saprophyticus ATCC 15305 (AP008934.1)</td></tr>
+						<tr><td>195</td><td>Streptococcus</td><td>Streptococcus agalactiae A909 (CP000114.1)</td></tr>
+						<tr><td>196</td><td></td><td>Streptococcus dysgalactiae subsp. equisimilis GGS_124 (AP010935.1)</td></tr>
+						<tr><td>197</td><td></td><td>Streptococcus equi subsp. equi 4047 (FM204883.1)</td></tr>
+						<tr><td>198</td><td></td><td>Streptococcus equi subsp. zooepidemicus MGCS10565 (CP001129.1)</td></tr>
+						<tr><td>199</td><td></td><td>Streptococcus gordonii str. Challis substr. CH1 (CP000725.1)</td></tr>
+						<tr><td>200</td><td></td><td>Streptococcus mutans NN2025 (AP010655.1)</td></tr>
+						<tr><td>201</td><td></td><td>Streptococcus pneumoniae R6 (AE007317.1)</td></tr>
+						<tr><td>202</td><td></td><td>Streptococcus pyogenes MGAS5005 (CP000017.2)</td></tr>
+						<tr><td>203</td><td></td><td>Streptococcus sanguinis SK36 (CP000387.1)</td></tr>
+						<tr><td>204</td><td></td><td>Streptococcus suis 05ZYH33 (CP000407.1)</td></tr>
+						<tr><td>205</td><td></td><td>Streptococcus thermophilus LMD-9 (CP000419.1)</td></tr>
+						<tr><td>206</td><td>Vibrio</td><td>Vibrio cholerae O1 biovar eltor str. N16961 chromosome I (AE003852.1)</td></tr>
+						<tr><td>207</td><td></td><td>Vibrio cholerae O1 biovar eltor str. N16961 chromosome II (AE003853.1)</td></tr>
+						<tr><td>208</td><td></td><td>Vibrio fischeri ES114 chromosome I (CP000020.2)</td></tr>
+						<tr><td>209</td><td></td><td>Vibrio fischeri ES114 chromosome II (CP000021.2)</td></tr>
+						<tr><td>210</td><td></td><td>Vibrio parahaemolyticus RIMD 2210633 (BA000031.2)</td></tr>
+						<tr><td>211</td><td></td><td>Vibrio parahaemolyticus RIMD 2210633 (BA000032.2)</td></tr>
+						<tr><td>212</td><td></td><td>Vibrio vulnificus CMCP6 chromosome I (AE016795.3)</td></tr>
+						<tr><td>213</td><td></td><td>Vibrio vulnificus CMCP6 chromosome II (AE016796.2)</td></tr>
+						<tr><td>214</td><td>Yersinia</td><td>Yersinia enterocolitica subsp. enterocolitica 8081 (AM286415.1)</td></tr>
+						<tr><td>215</td><td></td><td>Yersinia enterocolitica subsp. palearctica 105.5R(r) (NC_015224.1)</td></tr>
+						<tr><td>216</td><td></td><td>Yersinia pestis biovar Microtus str. 91001 (AE017042.1)</td></tr>
+						<tr><td>217</td><td></td><td>Yersinia pseudotuberculosis IP 31758 (CP000720.1)</td></tr>
+					</tbody>
+				</table>
+			<!-- </div> -->
+		</section><br/>
+
+		<section id="ontarget">
+			<h3>On-target activity scoring</h3><hr/><br/>
+			<p>
+				On-target is the ability of gRNA to successfully find and bind Cas9 to the target sequence (Mendoza & Trinh, 2018).
+				On-target activity is scored based on physical and sequence features of gRNA such as GC content,
+				minimum free energy (MFE), melting temperature (Tm), position-specific nucleotide and non-specific
+				position nucleotide. Of 479 features, we used Random Forest to select important features by comparing 5-fold cross-validation
+				results of top 50, 100, 150, 200, 250, 300, 350, 400 and 479 features. The features were then ranked based
+				on the mean decrease impurity (Gini importance). We found that the top 150 features have higher accuracy
+				of predicted model (Accuracy = 0.7316). Then, we used Logistic Regression coefficient to obtain model weight
+				for each feature (Accuracy = 0.7353). This model weight will be further used to compute on-target scoring.<br/><br/>
+				
+				<div class="row">
+					<div class="col-sm-12 col-md-5 col-lg-5">
+						On-target activity is scored as below:<br/><br/>
+						<img src="{{ url_for('static', filename='images/fsj.png') }}" style="width:180px;"><br/><br/>
+					</div>
+					<div class="col-sm-12 col-md-6 col-lg-6">
+						where g(sj):<br/>
+						<img src="{{ url_for('static', filename='images/gsj.png') }}" style="width:180px;"><br/><br/>
+
+						&bull; int (intercept) = 0.0412385<br/>
+						&bull; wij = weight of feature i
+					</div>
+				</div>
+				<br><br>
+				The score is ranged from 0 to 1. Higher score indicates higher predicted on-target activity.
+			</p><br>
+		</section>
+
+		<section id="offtarget">
+			<h3>Off-target scoring</h3><hr/><br/>
+			<p>
+			Off-target is the probabilty of gRNA sequence bind to a non-matching sequence in the genome (Mendoza & Trinh, 2018).
+			Our off-target score use CFD (Cutting Frequency Determination) score generated by Doench et. al., (2016) to
+			predict off-target activity of gRNAs. For more details, please refer to their publication.<br/><br/>
+			The score is ranged from 0 to 1. Higher score indicates higher off-target activity
+			(Note: Best gRNA would have lower off-target score).
+			</p><br>
+		</section>
+
+		<section id="results">
+			<h3>Interpreting results</h3><hr/><br/>
+			<img src="{{ url_for('static', filename='images/result.png') }}"><br/><br/><br>
+
+			<h5>Overview results:</h5>
+			<table class="table table-hover">
+				<thead>
+					<tr><th>Items</th><th>Description</th></tr>
+				</thead>
+				<tbody>
+					<tr><td>gRNA sequence</td><td>20-nucleotide sequence with PAM (highlighted).</td></tr>
+					<tr><td>Position</td><td>Position of gRNA in selected target genome.</td></tr>
+					<tr><td>GC_20nt</td><td>GC content of entire gRNA sequence.</td></tr>
+					<tr><td>GC_seed</td><td>GC content of seed region (10th to 20th bases).</td></tr>
+					<tr><td>Tm_20nt</td><td>Melting temperature of entire gRNA sequence.</td></tr>
+					<tr><td>Tm_seed</td><td>Melting temperature of seed region.</td></tr>
+					<tr>
+						<td>On-target</td>
+						<td><ul>
+							<li>On-target score reflecting efficiecy of gRNA to find and bind to the target sequence.</li>
+							<li>Higher on-target score indicates higher efficiency of gRNA.</li>
+							<li>Best gRNA would have higher on-target score.</li>
+						</ul></td>
+					</tr>
+					<tr>
+						<td>Off-target</td>
+						<td><ul>
+							<li>Number of regions found in target genome that have at most 7 mismatches against gRNA sequence.</li>
+							<li>Click <button class="more">+</button> for more details on off-target.</li>
+						</ul></td>
+					</tr>
+				</tbody>
+			</table><br>
+
+			<h5>Off-target prediction table:</h5>
+
+			<table class="table table-hover">
+				<thead >
+					<tr><th>Items</th><th>Description</th></tr>
+				</thead>
+				<tbody>
+					<tr><td>Off-target</td><td>20-nucleotide off-target sequence with PAM (highlighted).</td></tr>
+					<tr><td>Mismatches</td><td>Number of mismatches.</td></tr>
+					<tr><td>Start</td><td>Start position of off-target in target genome.</td></tr>
+					<tr><td>End</td><td>End position of off-target in target genome.</td></tr>
+					<tr>
+						<td>CFD score</td>
+						<td><ul>
+							<li>CFD score reflecting the probabilty of Cas9 would bind to the non-target sequence.</li>
+							<li>Higher score indicates higher off-target activity.</li>
+							<li>Best gRNA would have lower CFD score.</li>
+						</ul></td>
+					</tr>
+				</tbody>
+			</table><br>
+
+
+		</section>
+
+		<section id="references">
+			<h3>References</h3><hr/><br/>
+			<p>
+			Mendoza, B. J., & Trinh, C. T. (2018). Enhanced guide-RNA design and targeting analysis for precise CRISPR genome
+			editing of single and consortia of industrially relevant and non-model organisms. Bioinformatics, 34(1), 16-23.<br/><br/>
+			Doench, J. G., Fusi, N., Sullender, M., Hegde, M., Vaimberg, E. W., Donovan, K. F., ... & Virgin, H. W. (2016).
+			Optimized sgRNA design to maximize activity and minimize off-target effects of CRISPR-Cas9. Nature biotechnology, 34(2), 184.<br/>
+			</p>
+		</section>
+
+		</div>
+		</div>
+
+    <!-- footer -->
+    <!-- <div class="footer">
+      © 2021 CRISPRBAC. All rights reserved.
+    </div> -->
+
+</body>
+<script>
+  $(document).ready(function(){
+    $('a').click(function(){
+      $('a').removeClass("active");
+      $(this).addClass("active");
+    });
+  });
+</script>
+</html>
