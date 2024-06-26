@@ -3,4 +3,3 @@ Flask==2.0.2
 fuzzysearch==0.7.3
 regex==2021.4.4
 waitress==3.0.0
-gunicorn==20.1.0
