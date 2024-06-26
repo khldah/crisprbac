@@ -15,10 +15,12 @@ from Bio.Seq import Seq
 from io import StringIO
 from Bio.Blast import NCBIXML
 from fuzzysearch import find_near_matches
+from Bio import pairwise2
 
 app = Flask(__name__)
 
 target_genomes = {
+    # 'GCF_000005845.2': 'Escherichia coli str. K-12 substr. MG1655 ',
     'GCA_000006945.2': 'Salmonella enterica subsp. enterica serovar Typhimurium str. LT2 ',
     'GCF_000018445.1': 'Acinobacter baumannii str. ACICU ',
     'GCF_000401555.1': 'Aeromonas hydrophila str. ML09-119 ',
@@ -249,6 +251,9 @@ def result():
         target_sequence = request.form.get("sequence")
         # target_seq = target_sequence.replace('\n', '').replace(' ', '').replace('\r', '')
         pamseq = request.form.get('pamsequence')
+        runofftarget = request.form.get('runofftarget')
+        
+        
         
         # # find pam sequence in target sequence
         # pam = target_seq.find(pamseq)
@@ -302,23 +307,40 @@ def result():
         #  VIEW RESULT ################################################################
         
         view_result += "<h3>Job name: %s</h3>" % (job_name)
+        
+        if runofftarget == 'true':
 
-        view_result += '''
+            view_result += '''
 
-                <table id="grnadesign">
-                    <thead>
-                    <tr>
-                        <th>gRNA sequence</th>
-                        <th>Position </th>
-                        <th>GC_20nt (%) </th>
-                        <th>Tm_20nt (&deg;C) </th>
-                        <th>Model 3 Score </th>
-                        <th>Model 4 score</th>
-                        <th>Off-target </th>
+                    <table id="grnadesign">
+                        <thead>
+                        <tr>
+                            <th>gRNA sequence</th>
+                            <th>Position </th>
+                            <th>GC_20nt (%) </th>
+                            <th>Tm_20nt (&deg;C) </th>
+                            <th>Model 3 Score </th>
+                            <th>Model 4 score</th>
+                            <th>Off-target </th>
+                            </tr>
+                        </thead>
+            '''
+
+        else:
+            view_result += '''
+
+                    <table id="grnadesign" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>gRNA sequence</th>
+                            <th>GC_20nt (%) </th>
+                            <th>Tm_20nt (&deg;C) </th>
+                            <th>Model 3 Score </th>
+                            <th>Model 4 score</th>
                         </tr>
-                    </thead>
-        '''
-
+                        </thead>
+            '''
+            
         # while pam != -1:
         for grna_pam in candidate_gRNAs:
             
@@ -339,20 +361,31 @@ def result():
             view_result += "%.20s <mark>%s%s</mark>" % (grna, ngg, pamseq)
             view_result += "</td>"
 
-            # Column position
-            view_result += "<td> "
-            
-            print(f"Finding start_pos and end_pos for grna: {grna}")
-            for y in genome_seq:
-                grna_loc = re.search(grna, y)
+            if runofftarget == 'true':
+                # Column position
+                view_result += "<td> "
                 
-                if grna_loc is None:
-                    view_result += "NA"
-                else:
-                    # view_result += '%d - %d' % (grna_loc.start(), grna_loc.end())
-                    view_result += '%s - %s' % (str(grna_loc.start()), str(grna_loc.end()))
+                print(f"Finding start_pos and end_pos for grna: {grna}")
+                # for y in genome_seq:
+                #     grna_loc = re.search(grna, y)
                     
-            view_result += "</td>"
+                #     if grna_loc is None:
+                #         view_result += "NA"
+                #     else:
+                #         # view_result += '%d - %d' % (grna_loc.start(), grna_loc.end())
+                #         view_result += '%s - %s' % (str(grna_loc.start()), str(grna_loc.end()))
+                
+                target_genome_seq = Seq(genome_seq)
+                grna_seq = Seq(grna)
+    
+                start_pos = target_genome_seq.find(grna_seq)
+                if start_pos != -1:
+                    end_pos = start_pos + len(grna_seq) - 1
+                    view_result += f"{start_pos} - {end_pos}"
+                else:
+                    view_result += "NA"
+                        
+                view_result += "</td>"
 
             # evaluate top 150 features #######################################
             nonseed = grna[0:9]  # from P1-P9
@@ -863,143 +896,203 @@ def result():
 
             view_result += str("%.5f" % (on_score_model_4))
             
+            view_result += "</td>"
             
-
-            # Column mismatch_no #############################
-            view_result += "</td><td>"
-
-            print(f"Finding off-target of grna: {grna}...")
-            # off_targets = find_off_targets(grna_pam, genome_seq, allowed_mismatches=3)
-            
-            find_offtargets = regex.findall(r"(" + grna3+"){1<=s<=5}([G][G])", genome_seq)
-            offtargets = [sequence + pam for sequence, pam in find_offtargets]
-            no_offtarget = len(offtargets)
-            
-            print(offtargets)
-            print(no_offtarget)
-            
-            view_result += str(no_offtarget)
-
-            view_result += '''<input type="button" value="+" class="more">
-                </td></tr>
-
-
-                <tr>
-                    <td id="sub-td"></td>
-                    <td colspan="6" style="text-align:left; font-weight:bold;" id="sub-td"><br>
-                    <span style="color:#3A506B;">OFF-TARGET PREDICTION:</span>
-                    </td>
-                </tr>
-
-                </tr>
-                <tr>
-                    <td id="sub-td"></td>
-                    <td colspan="2" id="sub-td" style="font-weight:bold; color:#303030;">Off-target</td>
-                    <td id="sub-td" style="font-weight:bold; color:#303030;">Mismatches</td>
-                    <td id="sub-td" style="font-weight:bold; color:#303030;">Start</td>
-                    <td id="sub-td" style="font-weight:bold; color:#303030;">End</td>
-                    <td id="sub-td" style="font-weight:bold; color:#303030;">CFD Score</td>
-                </tr>
-
-            '''
-            
-            # for y in genome_seq:
-            for offtarget in offtargets:
-            
-                # offtarget = regex.findall(r"(" + grna+"){1<=s<=5}([atgcATGC][AG][G])", y)   # y = genome_seq
-
-                # offtarget = regex.findall(r"(" + grna3+"){1<=s<=5}([G][G])", y)
-                # offtarget = regex.findall(r"(" + grna3+"){1<=s<=5}([G][G])", genome_seq)
-                # no_offtarget = len(offtarget)
+            if runofftarget == 'true':
                 
-                # offtarget_sequence = y[1]
-                # no_offtarget = y[2]
-                # highlighted_offtarget_sequence = y[3]
-                # offtarget_position = y[0]
-
-                # for x in offtarget:
-                     
-                # offt = ''.join(x)
-                # offt = x[0] + x[1]
-                print(f"Running analysis for off-target: {offtarget}...")
-                offt_loc = re.search(offtarget, genome_seq)
-
-                ngg_offt = offtarget[-3:]
-                offt2 = offtarget[:20]
-
-                match = []
-                m = []
-                mismatch = 0
-
-
-                # grna2 = grna + ngg + pamseq
-                ngg_grna = ngg + pamseq
-
-
-                for a, b in zip(grna, offt2):
-                    if a == b:
-                        match.append(b)
-                    else:
-                        match.append('<span style="color:red;">')
-                        match.append(b)
-                        match.append('</span>')
-                        mismatch += 1
-
-                for a, b in zip(ngg_grna, ngg_offt):
-                    if a == b:
-                        m.append(b)
-                    else:
-                        m.append('<span style="color:red;">')
-                        m.append(b)
-                        m.append('</span>')
-                        mismatch += 1
-
-                matched = "".join(match)
-                matched_ngg = "".join(m)
-
-                view_result += '''
-                <tr>
-                    <td id="sub-td"></td>
-                    <td colspan="2" id="sub-td" class="seq">
-                    '''
-
-                view_result += str("%s <mark>%s</mark>" % (matched, matched_ngg))
-
-                view_result += '''</td>
-                    <td id="sub-td">'''
-                view_result += str("%g" % (mismatch))
-
-                view_result += '''
-                    </td>
-                    <td id="sub-td">'''
-
-                view_result += str(offt_loc.start())
-
-                view_result += '''</td>
-                    <td id="sub-td">'''
-
-                view_result += str(offt_loc.end())
-
-                view_result += '''</td>
-                <td id="sub-td">'''
-
-                print(f"Calculate off-target score for: {offtarget}...")
+                view_result += "<td>"
                 
-                mm_scores,pam_scores = get_mm_pam_scores()
-                m_grna = re.search('[^ATCG]',grna2)
-                m_off = re.search('[^ATCG]',offtarget)
-                if (m_grna is None) and (m_off is None):
-                    pam_offt = offtarget[-2:]
-                    cfd_score = calc_cfd(grna2,offt2,pam_offt)
-                    view_result += str("%.6f" % (cfd_score))
+                
+                target_genome_seq = Seq(genome_seq)
+                grna_seq = Seq(grna)
+                
+                alignments = pairwise2.align.localms(target_genome_seq, grna_seq, 2, -1, -1, -1)
+                all_offtargets = []
+                
+                for alignment in alignments:
+                
+                    seq1 = alignment.seqA
+                    seq2 = alignment.seqB
+                    mismatches = sum(1 for a, b in zip(seq1, seq2) if a != b and a != '-' and b != '-')
 
-                view_result += '''
-                </td>
-                </tr>
-                '''
-                view_result +='''<tr><td colspan="7" id="sub-td"></td></tr>'''
+                    if mismatches < 2:
+                        start_pos = alignment.start
+                        end_pos = alignment.end - 1
+                        
+                        all_offtargets.append({
+                            'start_pos': start_pos,
+                            'end_pos': end_pos,
+                            'mismatches': mismatches,
+                            'score': alignment.score,
+                            'off_target_seq': seq2
+                        })
+                
+                print('all_offtargets:')
+                print(all_offtargets)
+                        
+                view_result += str(len(all_offtargets))
+
+                view_result += "</td></tr>"
+                # view_result += '''<input type="button" value="+" class="more">
+                #     </td></tr>
 
 
+                #     <tr>
+                #         <td id="sub-td"></td>
+                #         <td colspan="6" style="text-align:left; font-weight:bold;" id="sub-td"><br>
+                #         <span style="color:#3A506B;">OFF-TARGET PREDICTION:</span>
+                #         </td>
+                #     </tr>
+
+                #     </tr>
+                #     <tr>
+                #         <td id="sub-td"></td>
+                #         <td colspan="2" id="sub-td" style="font-weight:bold; color:#303030;">Off-target</td>
+                #         <td id="sub-td" style="font-weight:bold; color:#303030;">Mismatches</td>
+                #         <td id="sub-td" style="font-weight:bold; color:#303030;">Start</td>
+                #         <td id="sub-td" style="font-weight:bold; color:#303030;">End</td>
+                #         <td id="sub-td" style="font-weight:bold; color:#303030;">CFD Score</td>
+                #     </tr>
+
+                # '''
+                    
+                    
+                    
+    
+                # # Column mismatch_no #############################
+                # view_result += "</td><td>"
+
+                # print(f"Finding off-target of grna: {grna}...")
+                
+                # find_offtargets = regex.findall(r"(" + grna3+"){1<=s<=5}([G][G])", genome_seq)
+                # offtargets = [sequence + pam for sequence, pam in find_offtargets]
+                # no_offtarget = len(offtargets)
+                
+                # print(offtargets)
+                # print(no_offtarget)
+                
+                # view_result += str(no_offtarget)
+
+                # view_result += '''<input type="button" value="+" class="more">
+                #     </td></tr>
+
+
+                #     <tr>
+                #         <td id="sub-td"></td>
+                #         <td colspan="6" style="text-align:left; font-weight:bold;" id="sub-td"><br>
+                #         <span style="color:#3A506B;">OFF-TARGET PREDICTION:</span>
+                #         </td>
+                #     </tr>
+
+                #     </tr>
+                #     <tr>
+                #         <td id="sub-td"></td>
+                #         <td colspan="2" id="sub-td" style="font-weight:bold; color:#303030;">Off-target</td>
+                #         <td id="sub-td" style="font-weight:bold; color:#303030;">Mismatches</td>
+                #         <td id="sub-td" style="font-weight:bold; color:#303030;">Start</td>
+                #         <td id="sub-td" style="font-weight:bold; color:#303030;">End</td>
+                #         <td id="sub-td" style="font-weight:bold; color:#303030;">CFD Score</td>
+                #     </tr>
+
+                # '''
+            
+                # # for y in genome_seq:
+                # for offtarget in offtargets:
+                
+                #     # offtarget = regex.findall(r"(" + grna+"){1<=s<=5}([atgcATGC][AG][G])", y)   # y = genome_seq
+
+                #     # offtarget = regex.findall(r"(" + grna3+"){1<=s<=5}([G][G])", y)
+                #     # offtarget = regex.findall(r"(" + grna3+"){1<=s<=5}([G][G])", genome_seq)
+                #     # no_offtarget = len(offtarget)
+                    
+                #     # offtarget_sequence = y[1]
+                #     # no_offtarget = y[2]
+                #     # highlighted_offtarget_sequence = y[3]
+                #     # offtarget_position = y[0]
+
+                #     # for x in offtarget:
+                        
+                #     # offt = ''.join(x)
+                #     # offt = x[0] + x[1]
+                #     print(f"Running analysis for off-target: {offtarget}...")
+                #     offt_loc = re.search(offtarget, genome_seq)
+
+                #     ngg_offt = offtarget[-3:]
+                #     offt2 = offtarget[:20]
+
+                #     match = []
+                #     m = []
+                #     mismatch = 0
+
+
+                #     # grna2 = grna + ngg + pamseq
+                #     ngg_grna = ngg + pamseq
+
+
+                #     for a, b in zip(grna, offt2):
+                #         if a == b:
+                #             match.append(b)
+                #         else:
+                #             match.append('<span style="color:red;">')
+                #             match.append(b)
+                #             match.append('</span>')
+                #             mismatch += 1
+
+                #     for a, b in zip(ngg_grna, ngg_offt):
+                #         if a == b:
+                #             m.append(b)
+                #         else:
+                #             m.append('<span style="color:red;">')
+                #             m.append(b)
+                #             m.append('</span>')
+                #             mismatch += 1
+
+                #     matched = "".join(match)
+                #     matched_ngg = "".join(m)
+
+                #     view_result += '''
+                #     <tr>
+                #         <td id="sub-td"></td>
+                #         <td colspan="2" id="sub-td" class="seq">
+                #         '''
+
+                #     view_result += str("%s <mark>%s</mark>" % (matched, matched_ngg))
+
+                #     view_result += '''</td>
+                #         <td id="sub-td">'''
+                #     view_result += str("%g" % (mismatch))
+
+                #     view_result += '''
+                #         </td>
+                #         <td id="sub-td">'''
+
+                #     view_result += str(offt_loc.start())
+
+                #     view_result += '''</td>
+                #         <td id="sub-td">'''
+
+                #     view_result += str(offt_loc.end())
+
+                #     view_result += '''</td>
+                #     <td id="sub-td">'''
+
+                #     print(f"Calculate off-target score for: {offtarget}...")
+                    
+                #     mm_scores,pam_scores = get_mm_pam_scores()
+                #     m_grna = re.search('[^ATCG]',grna2)
+                #     m_off = re.search('[^ATCG]',offtarget)
+                #     if (m_grna is None) and (m_off is None):
+                #         pam_offt = offtarget[-2:]
+                #         cfd_score = calc_cfd(grna2,offt2,pam_offt)
+                #         view_result += str("%.6f" % (cfd_score))
+
+                #     view_result += '''
+                #     </td>
+                #     </tr>
+                #     '''
+                #     view_result +='''<tr><td colspan="7" id="sub-td"></td></tr>'''
+
+            
             
         view_result += '''</table>'''
         
