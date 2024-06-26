@@ -8,13 +8,14 @@ import math
 import pickle
 import os
 import subprocess
-from subprocess import Popen, PIPE, DEVNULL
+# from subprocess import Popen, PIPE, DEVNULL
 from Bio import SeqIO
 from Bio.Seq import Seq
 from io import StringIO
 from Bio.Blast import NCBIXML
 from fuzzysearch import find_near_matches
 from Bio import pairwise2
+import RNA
 
 app = Flask(__name__)
 
@@ -434,13 +435,15 @@ def result():
 
             print(f"Calculate MFE of grna: {grna}...")
             # MFE
-            p = Popen('ViennaRNA_Package/RNAfold.exe', shell=False, stdin=PIPE, stdout=PIPE, stderr=DEVNULL)
-            ans = p.communicate(grna.encode())
-            res = [i for i in ans if i] # remove 'NONE' in list
+            # p = Popen('ViennaRNA_Package/RNAfold.exe', shell=False, stdin=PIPE, stdout=PIPE, stderr=DEVNULL)
+            # ans = p.communicate(grna.encode())
+            # res = [i for i in ans if i] # remove 'NONE' in list
 
-            out_mfe = ''.join(map(bytes.decode, res)) #convert bytes to string.
-            r_out_mfe = out_mfe.replace("\r\n", "")
-            mfe = float(r_out_mfe[-6:-1])
+            # out_mfe = ''.join(map(bytes.decode, res)) #convert bytes to string.
+            # r_out_mfe = out_mfe.replace("\r\n", "")
+            # mfe = float(r_out_mfe[-6:-1])
+            
+            structure, mfe = RNA.fold(grna)
 
             if -1 <= mfe <= 1:
                 mfe_bin = 1

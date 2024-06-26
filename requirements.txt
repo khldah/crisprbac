@@ -4,3 +4,4 @@ fuzzysearch==0.7.3
 regex==2021.4.4
 waitress==3.0.0
 Werkzeug==2.0.2
+ViennaRNA==2.6.4
