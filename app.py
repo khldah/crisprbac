@@ -6,7 +6,6 @@ from Bio.SeqUtils import MeltingTemp as mt
 import re
 import math
 import pickle
-import numpy as np
 import os
 import subprocess
 from subprocess import Popen, PIPE, DEVNULL
