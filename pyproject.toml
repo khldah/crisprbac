@@ -1,3 +1,3 @@
 [build-system]
-requires = ["setuptools", "wheel", "cython", "numpy", "biopython", "fuzzysearch", "regex"]
+requires = ["setuptools", "wheel", "cython", "biopython", "fuzzysearch", "regex"]
 build-backend = "setuptools.build_meta"
