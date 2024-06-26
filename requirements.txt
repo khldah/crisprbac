@@ -23,9 +23,6 @@ MarkupSafe==2.0.1
 matplotlib==3.4.2
 MeaningCloud-python==2.0.0
 mypy-extensions==0.4.3
-mysql-connector-python==8.0.26
-mysql-connector-python-rf==2.2.2
-mysqlclient==2.0.3
 numpy==1.20.3
 pandas==1.2.4
 pathlib==1.0.1
@@ -34,7 +31,6 @@ Pillow==8.2.0
 platformdirs==2.4.0
 protobuf==3.18.0
 pycodestyle==2.7.0
-PyMySQL==1.0.2
 pyparsing==2.4.7
 python-dateutil==2.8.1
 pytz==2021.1
@@ -45,7 +41,6 @@ scikit-learn==0.24.2
 scipy==1.6.3
 seqfold==0.7.7
 six==1.16.0
-sklearn==0.0
 subprocess.run==0.0.8
 threadpoolctl==2.2.0
 toml==0.10.2
